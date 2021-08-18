@@ -10,8 +10,7 @@ layout: page
 
 In my sets I pursue the minimal & deep techno sounds of the 2010s era.
 
-April 2021
-===
+### April 2021
 
 <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1032409762&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/where-is-brett" title="b._.rett" target="_blank" style="color: #cccccc; text-decoration: none;">b._.rett</a> · <a href="https://soundcloud.com/where-is-brett/april-2021" title="April 2021 | End of an Era Mix" target="_blank" style="color: #cccccc; text-decoration: none;">April 2021 | End of an Era Mix</a></div>
 
@@ -33,8 +32,7 @@ April 2021
 
 ------
 
-July 2021
-=========
+### July 2021
 
 <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1096253920&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe><div style="font-size: 10px; color: #cccccc;line-break: anywhere;word-break: normal;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; font-family: Interstate,Lucida Grande,Lucida Sans Unicode,Lucida Sans,Garuda,Verdana,Tahoma,sans-serif;font-weight: 100;"><a href="https://soundcloud.com/where-is-brett" title="b._.rett" target="_blank" style="color: #cccccc; text-decoration: none;">b._.rett</a> · <a href="https://soundcloud.com/where-is-brett/july-2021" title="July 2021 | Sunset" target="_blank" style="color: #cccccc; text-decoration: none;">July 2021 | Sunset</a></div>
 
