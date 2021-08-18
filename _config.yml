@@ -109,7 +109,7 @@ lang: en-GB # Set the site language
 title: "B._.rett" # Site name or title, also used in jekyll-seo-tag
 logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
 description: "" # Site description and default description, also used in jekyll-seo-tag
-url: "https://brettyang.info" # Site url, also used in jekyll-seo-tag
+url: "https://www.brettyang.info" # Site url, also used in jekyll-seo-tag
 baseurl: ""
 repo: "https://github.com/where-is-brett/where-is-brett.github.io"
 email: "brettyang@live.com"
@@ -121,7 +121,7 @@ service_worker: false # Will turn off the service worker if set to false
 # short_name: "BY" # The web application short name, defaults to the site title
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 formspree: "mbjqpkyq"
-adobe-client-id: "b1420327eac9438089067516360ba32c"
+adobe-client-id: "0d7a26ba351440139e7902cdbf8941dc"
 
 # 8. Site favicons & manifest icons
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
@@ -150,7 +150,7 @@ navigation_header:
 
 navigation_footer:
 - title: Created by Brett Yang
-  url: https://brettyang.info/
+  url: https://www.brettyang.info/
 
 social_links: # Appears in sidebar. Set the urls then uncomment and comment out as desired
   Instagram: https://www.instagram.com/b._.rett
