@@ -5,7 +5,6 @@ type: "music"
 permalink: /music/sets
 date: 2021-04-16 
 location: "Sydney, Australia" 
-layout: page
 ---
 
 In my sets I pursue the minimal & deep techno sounds of the 2010s era.

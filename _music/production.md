@@ -6,7 +6,6 @@ type: "music"
 permalink: /music/production
 date: 2021-06-24
 location: "Sydney, Australia"
-layout: page
 ---
 
 <br/>

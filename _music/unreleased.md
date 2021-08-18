@@ -4,7 +4,6 @@ collection: music
 type: "music"
 permalink: /music/unreleased
 date: 2021-06-24
-layout: page
 ---
 
 Work in progress.
