@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-GB"><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" hreflang="en-GB" /><updated>2021-08-18T07:59:18+01:00</updated><id>/feed.xml</id><title type="html">B._.rett</title><subtitle></subtitle><author><name>Brett Yang</name></author><entry><title type="html">An Efficient Pipeline for Cell Fluorescence Measurements</title><link href="/neuroscience/computation/2021/08/09/CTCF/" rel="alternate" type="text/html" title="An Efficient Pipeline for Cell Fluorescence Measurements" /><published>2021-08-09T00:00:00+01:00</published><updated>2021-08-09T00:00:00+01:00</updated><id>/neuroscience/computation/2021/08/09/CTCF</id><content type="html" xml:base="/neuroscience/computation/2021/08/09/CTCF/">&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Luke Hammond provided a comprehensive guide on the calculation of CTCF &lt;a href=&quot;https://theolb.readthedocs.io/en/latest/imaging/measuring-cell-fluorescence-using-imagej.html&quot;&gt;here&lt;/a&gt;. Hammond’s guide involves taking measurements in ImageJ, then export data to a spreadsheet application to perform calculations. This is a simple task but such repetitive procedures can be quite dull and sometimes induce mistakes. So I have created a MATLAB application to largely reduce manual procedure. A standalone version is also available for MacOS.&lt;/p&gt;
+
+&lt;h2 id=&quot;pre-requisites&quot;&gt;Pre-requisites&lt;/h2&gt;
+&lt;p&gt;A valid MATLAB license is required to run the app within MATLAB.
+To install standalone version, MacOS and a good internet connection are required.&lt;/p&gt;
+
+&lt;h2 id=&quot;instructions&quot;&gt;Instructions&lt;/h2&gt;
+&lt;p&gt;Load an image by using the ‘Load Image’ button. If your image is a true colour RGB image, select the colour channel for which ROI is to be drawn from the dropdown menu, skip this step if you have loaded a greyscale image.&lt;/p&gt;
+
+&lt;p&gt;You may draw ROIs for cellular objects and background using the MATLAB Polygon, Circle, Freehand and Assisted Freehand tools. Begin drawing an ROI by selecting one of the drawing tools. You may cancel drawing anytime before the ROI is closed using the ‘Esc’ key. Right-click an ROI to view the “Delete” option. When you have selected all ROIs, save data and return to the main UI by clicking the ‘Apply’ button. The ROIs for cells and background should be drawn in an alternating fashion, beginning with a cell ROI. That is, &lt;em&gt;Cell 1-&amp;gt; Background 1 -&amp;gt; Cell 2 -&amp;gt; Background 2 …&lt;/em&gt;. The ROI Labeller will remind you of which type you ought to delineate at all time.&lt;/p&gt;
+
+&lt;p&gt;Select the colour channel(s) for which CTCF is measured by ticking the corresponding checkboxes. Perform measurements by clicking on the ‘Calculate CTCF’ button. The results will be displayed as a table in pop-up windows.&lt;/p&gt;
+
+&lt;p&gt;Note: 
+If you have deleted an ROI, the labeller will ask you to replace that object immediately. New ROIs can be created once it has been replaced. The default tool for replacement is Freehand.&lt;/p&gt;
+
+&lt;h2 id=&quot;video-demonstration&quot;&gt;Video Demonstration&lt;/h2&gt;
+&lt;video style=&quot;width:100%;height:100%;&quot; class=&quot;mejs__player&quot;&gt; 
+ 	&lt;source src=&quot;https://www.brettyang.info/files/videos/CTCF_demo.mp4&quot; type=&quot;video/mp4&quot; /&gt; 
+ 	Your browser does not support mp4 video. 
+&lt;/video&gt;
+
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;download&quot;&gt;Download&lt;/h2&gt;
+&lt;!-- DOWNLOAD BUTTONS --&gt;
+&lt;p&gt;&lt;a class=&quot;button&quot; href=&quot;https://au.mathworks.com/matlabcentral/fileexchange/97377-corrected-total-cell-fluorescence&quot; style=&quot;background: #f68140&quot;&gt;Donwload MATLAB App&lt;/a&gt;
+ &lt;a class=&quot;button&quot; href=&quot;https://www.brettyang.info/files/compressed/CTCF_v0.1.3.dmg&quot; style=&quot;background: #0d94e7&quot;&gt;Donwload MacOS Installer&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;updates&quot;&gt;Updates&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;14th August 2021&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Bugfix and improvements on ROI Labeller logistics and stability.&lt;/li&gt;
+  &lt;li&gt;Allow saving of ROIs as an instance mask (PNG format) from which CTCF measurements can be reproduced.&lt;/li&gt;
+  &lt;li&gt;Toggle button to show/hide ROI labels.
+  Note: there is a current problem associated with the ‘Assisted’ ROI tool. The Assisted Freehand tool only works after the first ROI has been defined.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;13th August 2021&lt;/strong&gt;
+v0.1.2 update addresses several issues in the previous versions:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;The ROI Labeller will guide the user through the labelling process.&lt;/li&gt;
+  &lt;li&gt;Each ROI is labelled with its corresponding object type and ordinal (e.g. “2nd Cell”), which will appear upon hover.&lt;/li&gt;
+  &lt;li&gt;Selecting an ROI tool while drawing will no longer trigger a new ROI object.&lt;/li&gt;
+  &lt;li&gt;The issue with overlapping of ROIs is resolved.&lt;/li&gt;
+  &lt;li&gt;Delete any ROI object from the right dropdown menu and replace it with a new ROI (every deleted ROI must be replaced).&lt;/li&gt;
+  &lt;li&gt;Smart workflow: the program will determine which functions are available based on the user interaction so as to prevent runtime error.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;New features are added:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Save measurement data into an Excel document. Readings from each selected colour channel are stored in a separate spreadsheet.&lt;/li&gt;
+  &lt;li&gt;Added ROI selection tool: assisted freehand&lt;/li&gt;
+  &lt;li&gt;(Not Recommended) User can now save ROI objects as a “.ROI” file in the ROI Labeller and load at a later time.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;11th August 2021&lt;/strong&gt;
+The release of v0.1.1 improves performance and stability. This update also introduced minor changes to the GUI.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;10th August 2021&lt;/strong&gt;
+A MATLAB app v0.1.0 is now available and can be installed from MATLAB add-on explorer. The app is user friendly and does not require programming.
+A standalone version of this program is now available on MacOS. The app depends on MATLAB Runtime (~600MB). The installer will automatically download and install this from MATLAB’s server. This is a good option if you do not have MATLAB installed.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6th August 2021&lt;/strong&gt;
+Pre-release of MATLAB command-line program.&lt;/p&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Neuroscience&quot;, &quot;Computation&quot;]" /><summary type="html">A MATLAB application for efficient computation of corrected total cell fluorescence (CTCF).</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">A Deep Learning-Based Software for Neural Cell Segmentation and Quantification</title><link href="/neuroscience/computation/2021/06/04/segmentation/" rel="alternate" type="text/html" title="A Deep Learning-Based Software for Neural Cell Segmentation and Quantification" /><published>2021-06-04T00:00:00+01:00</published><updated>2021-06-04T00:00:00+01:00</updated><id>/neuroscience/computation/2021/06/04/segmentation</id><content type="html" xml:base="/neuroscience/computation/2021/06/04/segmentation/">&lt;p&gt;&lt;strong&gt;This content is not currently available to the public. If you believe that you have the right to access this content, please enter my date of birth (DDMMYYYY) in the PASSWORD prompt below.&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div id=&quot;adobe-dc-view&quot; style=&quot;height: auto; max-width: 100%;&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://documentcloud.adobe.com/view-sdk/main.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	document.addEventListener(&quot;adobe_dc_view_sdk.ready&quot;, function(){ 
+		var adobeDCView = new AdobeDC.View({clientId: &quot;d3af72803f944904af0706427e38ce4c&quot;, divId: &quot;adobe-dc-view&quot;});
+		adobeDCView.previewFile({
+			content:{location: {url: &quot;https://www.brettyang.info/files/documents/Segmentation_bZ7PqUxakTpxmVuFVJLbJULpyB5zJu8u.pdf&quot;}},
+			metaData:{fileName: &quot;Segmentation.pdf&quot;}
+		}, {embedMode: &quot;IN_LINE&quot;, showDownloadPDF: false, showPrintPDF: false});
+	});
+&lt;/script&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Neuroscience&quot;, &quot;Computation&quot;]" /><summary type="html">Segmentation of cellular structures is at the heart of biomedical image analysis. Manually performing segmentation is time-consuming and prone to inter-observer and intra-observer bias. Deep learning has proven effective in object detection and segmentation tasks. We present a deep learning-based algorithm for cell segmentation of immunofluorescent-labelled images. Our model was trained on a dataset containing a variety of cells and a total of 57,045 segmented objects. We implemented contrast normalisation and image augmentation to achieve a robust model. A program was created to calculate the total corrected cell fluorescence of neurons in the mouse model of Alzheimer’s disease.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">A Neutral Hydrogen Survey of M31</title><link href="/physics/computation/2018/12/14/M31/" rel="alternate" type="text/html" title="A Neutral Hydrogen Survey of M31" /><published>2018-12-14T00:00:00+00:00</published><updated>2018-12-14T00:00:00+00:00</updated><id>/physics/computation/2018/12/14/M31</id><content type="html" xml:base="/physics/computation/2018/12/14/M31/">&lt;div id=&quot;adobe-dc-view&quot; style=&quot;height: auto; max-width: 100%;&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://documentcloud.adobe.com/view-sdk/main.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	document.addEventListener(&quot;adobe_dc_view_sdk.ready&quot;, function(){ 
+		var adobeDCView = new AdobeDC.View({clientId: &quot;d3af72803f944904af0706427e38ce4c&quot;, divId: &quot;adobe-dc-view&quot;});
+		adobeDCView.previewFile({
+			content:{location: {url: &quot;https://www.brettyang.info/files/documents/JodrellBankM31_bZ7PqUxakTpxmVuFVJLbJULpyB5zJu8u.pdf&quot;}},
+			metaData:{fileName: &quot;JodrellBankM31.pdf&quot;}
+		}, {embedMode: &quot;IN_LINE&quot;, showDownloadPDF: false, showPrintPDF: false});
+	});
+&lt;/script&gt;
+
+&lt;!--&lt;script src=&quot;https://documentcloud.adobe.com/view-sdk/main.js&quot;&gt;&lt;/script&gt;--&gt;
+&lt;!--&lt;script type=&quot;text/javascript&quot;&gt;--&gt;
+&lt;!--	document.addEventListener(&quot;adobe_dc_view_sdk.ready&quot;, function(){ --&gt;
+&lt;!--		var adobeDCView = new AdobeDC.View({clientId: &quot;c4eaa2632b9a4dd58636e13203fb5b70&quot;});--&gt;
+&lt;!--		adobeDCView.previewFile({--&gt;
+&lt;!--			content:{location: {url: &quot;https://where-is-brett.github.io/projects/M31.pdf&quot;}},--&gt;
+&lt;!--			metaData:{fileName: &quot;M31.pdf&quot;}--&gt;
+&lt;!--		}, {embedMode: &quot;LIGHT_BOX&quot;, showDownloadPDF: false, showPrintPDF: false});--&gt;
+&lt;!--	});--&gt;
+&lt;!--&lt;/script&gt;--&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Physics&quot;, &quot;Computation&quot;]" /><summary type="html">21cm observations over 57 points indicate (1) the majority of HI content is contained within a radius of 10.1kpc showing a ring-like structure and (2) the rotation curve is proximately flat in the outer region up to 25kpc. The latter implies a linear increase in dynamical mass even in regions with negligible HI density. The total dynamical mass is 2 orders of magnitude greater than the observed HI mass.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Simulating AC Circuitry in a C++ Command-line Application</title><link href="/computation/physics/2018/05/15/AC-circuit/" rel="alternate" type="text/html" title="Simulating AC Circuitry in a C++ Command-line Application" /><published>2018-05-15T00:00:00+01:00</published><updated>2018-05-15T00:00:00+01:00</updated><id>/computation/physics/2018/05/15/AC-circuit</id><content type="html" xml:base="/computation/physics/2018/05/15/AC-circuit/">&lt;h2 id=&quot;project-report&quot;&gt;Project Report&lt;/h2&gt;
+
+&lt;div id=&quot;adobe-dc-view&quot; style=&quot;height: auto; max-width: 100%;&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;https://documentcloud.adobe.com/view-sdk/main.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+	document.addEventListener(&quot;adobe_dc_view_sdk.ready&quot;, function(){ 
+		var adobeDCView = new AdobeDC.View({clientId: &quot;d3af72803f944904af0706427e38ce4c&quot;, divId: &quot;adobe-dc-view&quot;});
+		adobeDCView.previewFile({
+			content:{location: {url: &quot;https://www.brettyang.info/files/documents/ACCircuit_bZ7PqUxakTpxmVuFVJLbJULpyB5zJu8u.pdf&quot;}},
+			metaData:{fileName: &quot;AC Circuit.pdf&quot;}
+		}, {embedMode: &quot;IN_LINE&quot;, showDownloadPDF: false, showPrintPDF: false});
+	});
+&lt;/script&gt;
+
+&lt;h2 id=&quot;command-line-demonstration&quot;&gt;Command-line Demonstration&lt;/h2&gt;
+&lt;!-- Video tag --&gt;
+&lt;video style=&quot;width:100%;height:100%;&quot; class=&quot;mejs__player&quot;&gt;
+	&lt;source src=&quot;https://www.brettyang.info/files/videos/ac_circuit_demo.mp4&quot; type=&quot;video/mp4&quot; /&gt;
+	Your browser does not support mp4 video.
+&lt;/video&gt;
+
+&lt;h2 id=&quot;download&quot;&gt;Download&lt;/h2&gt;
+
+&lt;!-- DOWNLOAD BUTTON --&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.brettyang.info/files/compressed/AC_Circuit.zip&quot; class=&quot;btn btn--primary&quot;&gt;&lt;i class=&quot;fas fa-download&quot;&gt;&lt;/i&gt; Source Code&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.brettyang.info/files/other/AC_Circuit&quot; class=&quot;btn btn--primary&quot;&gt;&lt;i class=&quot;fas fa-download&quot;&gt;&lt;/i&gt; .exe&lt;/a&gt;&lt;/p&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Computation&quot;, &quot;Physics&quot;]" /><summary type="html">This program simulates real-world AC circuitry by embedding the laws of physics into C++ class objects. In computer science, this is known as object-oriented programming.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Is Inflation Compatible with Thermodynamics?</title><link href="/posts/2018/04/inflation/" rel="alternate" type="text/html" title="Is Inflation Compatible with Thermodynamics?" /><published>2018-04-22T00:00:00+01:00</published><updated>2018-04-22T00:00:00+01:00</updated><id>/posts/2018/04/Inflation-Theory</id><content type="html" xml:base="/posts/2018/04/inflation/">&lt;p&gt;Our best current understanding of the origin of the universe is described by the Big Bang theory: the universe arose from a singularity. The inflation theory accounts for several problems with the standard Big Bang model, including the horizon problem, the flatness problem and the magnetic monopole problem; and it explains the origin of large-scale structures of the universe. While the theory is successful in making sense of the evolution of the early universe, the initial conditions of the inflation remains a controversial topic among cosmologists. In this essay, we will examine the inflation theory from a thermodynamical perspective.&lt;/p&gt;
+
+&lt;p&gt;In statistical mechanics, the thermodynamic asymmetry is indubitable – heat flows from what is hot to what is cold. For instance, sugar cube dissolves in tea, but never the reverse. The second law of thermodynamics thus defines an arrow of time – the direction in which entropy increases&lt;sup id=&quot;fnref:1&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. When seeking an answer in the philosophy of the asymmetry, physicists segregate into different views. A distinguished view on this asymmetry consists the following:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:10%; margin-right:10%;&quot;&gt;A. If we impose that the early universe had very low entropy, then the second law of thermodynamics is readily imbedded in the time-symmetric microphysics.&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:10%; margin-right:10%;&quot;&gt;B. The second law of thermodynamics is a consequence of phase space geometry – the patch corresponding to equilibrium is much larger than other regions in phase space. Thus, unless the initial conditions of a system are extremely special, it will evolve towards a state of equilibrium (Goldstein, 2001).&lt;/p&gt;
+
+&lt;p&gt;Putting above postulates into the context of our discussion, (A) largely prevail on the low-entropy early universe while (B) demands that the proto-inflationary universe was in a rather “special” state&lt;sup id=&quot;fnref:2&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;. In the following sections, I will discuss separately the above requirements.&lt;/p&gt;
+
+&lt;p&gt;The evolution of the early universe from inflation theorists’ point of view follows the timeline (unit: seconds): Planck Epoch (${0} &amp;lt; t &amp;lt; {10}^{-43}$), in which the all fundamental forces were unified; Grand Unification Epoch (${10}^{-43}&amp;lt;t&amp;lt;{10}^{-36}$), during which gravitation were separated from the unified forces; Inflationary Epoch (${10}^{-36}&amp;lt;t&amp;lt;{10}^{-32}$), in which the strong force was separated from the unified forces producing baryon asymmetry as observed today and the universe expended exponentially by the order of ${10}^{26}$. During the pre-inflationary period, the universe was dominated by the inflation potential $V\left(\varphi\right)$, this allows the space to expand exponentially. At this point, all of the energy density was stored in one degree of freedom – the ‘slow row’ inflaton field $\varphi$&lt;sup id=&quot;fnref:3&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;. The spacetime was then able to equilibrate into de Sitter space, providing the essential properties for the early universe. The ‘slowly rolling’ inflation potential ends with the $\varphi$ speeding up and driving $V\left(\varphi\right)$ to decay rapidly, allowing the universe to ‘reheat’ into a thermal state of ordinary matters.&lt;/p&gt;
+
+&lt;p&gt;One way to examine the second law with regards to the inflation is to compare the entropy of the universe at different stages with respect to the inflationary epoch. If the universe we observe today is in a low entropy state, then the post-inflationary universe must have had even lower entropy. However, observations of the cosmic microwave background (CMB) suggest the universe was left in a state near thermal equilibrium after inflation.&lt;/p&gt;
+
+&lt;p&gt;To reconcile this phenomenon and the second law, we need to examine the gravitational entropy in the early universe. For a kinetically dominated system, particles would diffuse until the system reaches thermal equilibrium, leaving a smooth distribution of matter. However, for a gravitational dominated system, a homogeneous distribution of matter corresponds to a minimal gravitational entropy state: at the initial singularity $t\rightarrow0$, the Weyl conformal tensor is constrained to near diagonal (Penrose, 1980), this implies low initial gravitational entropy (Penrose, 2004). During the reheating stage of inflation, false vacuum energy was disposed as a smooth distribution of relativistic particles. The expansion and cooling of the universe then produced a smooth distribution of clumpable matter, leaving the universe in a low gravitational entropy state (Patel &amp;amp; Lineweaver, 2017).&lt;/p&gt;
+
+&lt;p&gt;Following the CMB, the emergence of self-gravitating protostars means an apparent decrease in homogeneity. But such systems would have negative microcanonical specific heat. The formation of stars implies that energy was dissipated during the process, hence increasing entropy. Blackholes come into existence from further gravitational collapses, increasing entropy drastically (Bekenstein, 1973). The highest contributors to the overall entropy of the universe are supermassive blackholes at the centre of galaxies. And such blackholes will eventually evaporate through Hawking radiations and further increase entropy (Page, 2005).&lt;/p&gt;
+
+&lt;p&gt;The post-inflationary entropy issue is resolved by the realisation that the post-inflation homogeneous CMB has low gravitational entropy. The overall entropy will continue to increase while the overall homogeneity of the universe reduces.&lt;/p&gt;
+
+&lt;p&gt;The second law would also require the proto-inflationary universe to be in a lower entropy state relative to later stages. It can be shown that this is the case for inflation by considering the entropy of the universe at different stages. Inflation theory itself is consistent with the second law, so we need to examine only the proto-inflation and post-inflation entropies.&lt;/p&gt;
+
+&lt;p&gt;The post-inflationary entropy can be calculated from existing data of the CMB. The current observed temperature of the CMB is $T_{CMB}=2.725\ K$. The photon number density is given by:&lt;/p&gt;
+
+&lt;p&gt;$n=16\pi\zeta\left(3\right)\left(\frac{k_BT_{CMB}}{hc}\right)^3=4.105\times{10}^8\ m^{-3}\tag{1}$&lt;/p&gt;
+
+&lt;p&gt;where the Riemann Zeta function has $\zeta\left(3\right)=1.202$.
+The most recent data from the Planck Observatory estimates the age of the universe to be $t_0=13.799\times{10}^9$ yr (Planck Collaboration, 2016). The comoving distance from the Earth to the edge of the observable universe is $R_{horizon}=46.6\times{10}^9$ light years (Gott, J. Richard III, et al., 2005), thus the volume of the observable universe is:&lt;/p&gt;
+
+&lt;p&gt;$V=\frac{4\pi}{3}{R_{horizon}}^3=3.589\times{10}^{80}\ m^3\tag{2}$&lt;/p&gt;
+
+&lt;p&gt;Hence the total number of photons from the CMB is:&lt;/p&gt;
+
+&lt;p&gt;$N=n\times V=1.473\times{10}^{89}\tag{3}$&lt;/p&gt;
+
+&lt;p&gt;The average entropy of each photon is $s_\gamma=3.6k_B$. So, entropy of CMB is:&lt;/p&gt;
+
+&lt;p&gt;$S_{CMB}=s_\gamma\times N=5.303\times{10}^{89}\ k_B\tag{4}$&lt;/p&gt;
+
+&lt;p&gt;An estimate of proto-inflationary entropy was made by Carroll and Chen&lt;sup id=&quot;fnref:4&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:4&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;4&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;p&gt;$S_{proto-inflation}=7.243^{34} \times k_B\tag{5}$
+  (Carroll &amp;amp; Chen, 2005)&lt;/p&gt;
+
+&lt;p&gt;Comparing above results we find the entropy of the universe at the beginning of inflation is far less than the post-inflationary entropy. The proto-inflationary and post-inflationary entropies are thus in perfect accordance with the second law of thermodynamics. Applying the results from microphysics, we have established that the universe did start off from a low entropy state while abiding to the second law of thermodynamics, hence (A) is satisfied.&lt;/p&gt;
+
+&lt;p&gt;The question remains, should we expect appropriate proto-inflationary conditions within the randomly fluctuating early universe? Seeking an answer to this question to its full extent is beyond the scope of this essay, what we should ask instead is, does the second law allow the imposition of such a condition? While inflation requires a small fluctuation&lt;sup id=&quot;fnref:5&quot; role=&quot;doc-noteref&quot;&gt;&lt;a href=&quot;#fn:5&quot; class=&quot;footnote&quot; rel=&quot;footnote&quot;&gt;5&lt;/a&gt;&lt;/sup&gt; in the early inflaton field to produce a universe like ours, its exponential extension is generic and abides by the second law. The arrow of time does not rule out the possibility of such a fluctuation, and if we assert that inflation did occur, its initial conditions is automatically satisfied, without conflicting the second law of thermodynamics. The motivation of inflation or other models of this its kind is not to impose completely generic initial conditions on the early universe.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h1 id=&quot;reference&quot;&gt;Reference&lt;/h1&gt;
+&lt;p&gt;Albrecht, A., 2003. Cosmic Inflation and the Arrow of Time. In: J. D. Barrow, P. Davies &amp;amp; C. H. eds., eds. Science and Ultimate Reality: From Quantum to Cosmos. Cambridge: Cambridge University Press, pp. 363-401.&lt;/p&gt;
+
+&lt;p&gt;Bekenstein, J., 1973. Black Holes and Entropy. Physics Review, D(7), pp. 2333-2346.&lt;/p&gt;
+
+&lt;p&gt;Carroll, S. M. &amp;amp; Chen, J., 2005. Does Inflation Provide Natural Initial Conditions for the Universe?. International Journal of Modern Physics, D(15), pp. 2335-2340.&lt;/p&gt;
+
+&lt;p&gt;Fixsen, D., 2009. The Temperature of the Cosmic Microwave Background. The Astrophysical Journal, 707(2), pp. 916-920.&lt;/p&gt;
+
+&lt;p&gt;Goldstein, S., 2001. Boltzmann’s approach to statistical mechanics. In: J. Bricmont, et al. eds. Chance in Physics: Foundations and Perspectives. Berlin: Springer, pp. 39-54.&lt;/p&gt;
+
+&lt;p&gt;Gott, J. Richard III, et al., 2005. A Map of the Universe. The Astrophysical Journal, 624(2).&lt;/p&gt;
+
+&lt;p&gt;Page, D., 2005. Hawking Radiation and Black Hole Thermodynamics. New Journal of Physics, 7(203).&lt;/p&gt;
+
+&lt;p&gt;Patel, V. &amp;amp; Lineweaver, C., 2017. Solutions to the Cosmic Initial Entropy Problem without Equilibrium Initial Conditions. Entropy, 19(411).&lt;/p&gt;
+
+&lt;p&gt;Penrose, R., 1980. Singularities and time asymmetry. In: S. W. Hawking &amp;amp; W. E. Israel, eds. General Relativity: An Einstein Centenary Volume. Cambridge: Cambridge University Press, pp. 581-638.&lt;/p&gt;
+
+&lt;p&gt;Penrose, R., 2004. The Big Bang and its Thermodynamic Legacy. In: Road to Reality: A Complete Guide to the Laws of the Universe. London: Johnathan Cape, pp. 686-743.&lt;/p&gt;
+
+&lt;p&gt;Planck Collaboration, 2016. Planck 2015 results XIII. Cosmological parameters. Astronomy &amp;amp; Astrophysics, XIII(594).&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;div class=&quot;footnotes&quot; role=&quot;doc-endnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;Hawking presented a short and elegant thought experiment in chapter 9 of his book “A Brief History of Time” to demonstrate this definition of the arrow of time. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;For inflation to begin from randomly fluctuating early universe, there would have been a small fluctuation in inflaton field to produce a region like the universe we live in. &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;In the beginning of inflation, the scalar field \varphi starts out in the rather flat part of the inflation potential, varying slowly with time. &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:4&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;This is a calculation of the entropy of inflaton field \varphi, it relies on the estimate of the inflationary energy scale. &lt;a href=&quot;#fnref:4&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:5&quot; role=&quot;doc-endnote&quot;&gt;
+      &lt;p&gt;The proto-inflationary initial conditions are only special in a small region of the inflaton field, not the entire state of the universe (Albrecht, 2003). &lt;a href=&quot;#fnref:5&quot; class=&quot;reversefootnote&quot; role=&quot;doc-backlink&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Philosophy&quot;, &quot;Physics&quot;]" /><summary type="html">Is the Big Bang the ultimate theory of universal origin? One of the most controversial topic is the inflation theory. Here we will look at inflation under the thermodynamic asymmetry.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">On Realism</title><link href="/posts/2017/03/realism/" rel="alternate" type="text/html" title="On Realism" /><published>2017-03-22T00:00:00+00:00</published><updated>2017-03-22T00:00:00+00:00</updated><id>/posts/2017/03/Realism</id><content type="html" xml:base="/posts/2017/03/realism/">&lt;p&gt;Representational realism claims that there are external objects which exists independent of a mind perceiving it and one’s experience of these objects are merely internal ideas. In this essay, I will present an argument in favour of representational realism and assess its soundness.&lt;/p&gt;
+
+&lt;p&gt;The strongest argument for representational realism, perhaps, is the simplicity argument by Bertrand Russell. Russell built this argument on John Locke’s theory of presentative realism. Supposing physical objects are granted existence, Russell’s argument may be generalised as follow:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P1.	Sense-data suggests changes in physical objects when I do not perceive them.&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P2.	Common-sense explanation for such changes, that physical objects continue to exist even when I do not perceive them, is a simple and natural one without any difficulties.&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P3.	Other accounts for change in physical objects, that they cease to exist when I do not perceive them, comes with many difficulties and requires complicated explanations.&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P4.	Every principle of simplicity urges us to adopt the natural (and simple) view (Russell (1912).&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;C.	Therefore, it is reasonable to belief that there are objects other than ourselves and our sense-data which have an existence not dependent upon our perceiving them (Russell 1912).&lt;/p&gt;
+
+&lt;p&gt;Russell’s abductive reasoning relies on inference to the best explanation. It offers a simple account for the changes in our observations of a subject, during a time interval in which we do not perceive it. The various forms of simplicity principle , agrees that we should adopt to the most natural and simple view. The assumption that physical objects do exist should not cause us difficulties because Russell’s focus is on the reasonability for believing matter exists, rather than the certainty of its existence. As far as Russell is concerned, a reasonable enough and harmless idea which has the potential to benefit shall be accepted.&lt;/p&gt;
+
+&lt;p&gt;One could argue that it is possible to have equally simple explanations, but each disagrees with another. Historically, the geocentric model of the universe was taught by ancient Greek philosophers for hundreds of years because it provided a plausible, natural understanding of the universe as was observed. Later observations inspired the heliocentric model which provided equally reasonable understanding of the universe. Since the certainty of a physical object behind an observation is not guaranteed, one cannot with certainty, accept one model and reject the other. But these ideas are paradoxical; one must accept one and reject the other. Without certainty, can we arrive at any natural understanding at all?&lt;/p&gt;
+
+&lt;p&gt;Despite the difficulty with uncertainty, Russell would urge us to believe in our observations, for it offers the theoretical likelihood of one version of reality. There is no harm in believing in either geocentric model or heliocentric model of the universe, both had inspired humanity of what lies beyond the world it once knew. Russell’s solution is that we should systematise our beliefs, starting with those that we hold most strongly. As we continue to make observations, we compare the results with existing beliefs and rule out any inconsistences. Only by accepting appearance and reality as a whole, can we effectively arrive at empirical proofs for new ideas.&lt;/p&gt;
+
+&lt;p&gt;The modern sciences follow the same path: knowledge is found by assessing new ideas rather than pressing the limits of philosophy. Though scientific theories do not provide certainty , their impact on the modern society is apparent. Today, science is widely accepted as the mainstay of knowledge, scientists should also be cognisant of the problems of metaphysics.&lt;/p&gt;
+
+&lt;h1 id=&quot;reference&quot;&gt;Reference:&lt;/h1&gt;
+&lt;p&gt;Russell, B. (1912). The Problems Of Philosophy. New York,, H. Holt and company.&lt;/p&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Philosophy&quot;]" /><summary type="html">Is matter real? Does anything exist without a mind perceiving it? In this post, I will share my thoughts on representational realism.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gettier Problem</title><link href="/posts/2016/04/gettier/" rel="alternate" type="text/html" title="The Gettier Problem" /><published>2016-04-28T00:00:00+01:00</published><updated>2016-04-28T00:00:00+01:00</updated><id>/posts/2016/04/Gettier-Problem</id><content type="html" xml:base="/posts/2016/04/gettier/">&lt;p&gt;In 1963, Edmund L. Gettier published a brief paper in Analysis. The paper challenged the traditional view of propositional knowledge as justified true belief. In this paper, I will attempt to challenge Gettier’s argument in effort to defend the traditional definition of knowledge.&lt;/p&gt;
+
+&lt;p&gt;Gettier raised objections against the traditional definition of knowledge. Namely, Gettier claims that:&lt;/p&gt;
+
+&lt;p&gt;(K) S knows that P if and only if&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(1) P is true,&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(2) S believes that P, and&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(3) S is justified in believing that P&lt;/p&gt;
+
+&lt;p&gt;is insufficient for propositional knowledge.&lt;/p&gt;
+
+&lt;h1 id=&quot;gettiers-two-assumptions&quot;&gt;Gettier’s Two Assumptions&lt;/h1&gt;
+
+&lt;p&gt;Gettier’s two cases were built on two explicit assumptions. First Gettier assumed:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt; A1: It is possible for S to be justified in believing P, which is in fact false.&lt;/p&gt;
+
+&lt;p&gt;That is, Gettier assumed that while S may not know that P, condition (3) can be satisfied even if condition (1) is not.&lt;/p&gt;
+
+&lt;p&gt;Gettier’s second assumption is based on the principle of epistemic closure. Gettier wrote:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;A2: For any proposition P, if S is justified in believing P, and P entails Q, and S deduces Q from P and accepts Q as a result of this deduction, then S is justified in believing Q. (Gettier, 1963)&lt;/p&gt;
+
+&lt;p&gt;This is derived from a more general deductive closure principle, “A set of objects, O, is said to exhibit closure or to be closed under a given operation, R, provided that for every object, x, if x is a member of O and x is R-related to any object, y, then y is a member of O” (Audi, 1999).&lt;/p&gt;
+
+&lt;p&gt;These assumptions build up the essential logic in Gettier’s cases where all three conditions are satisfied for (K) but S does not know P.&lt;/p&gt;
+
+&lt;h1 id=&quot;gettiers-objections&quot;&gt;Gettier’s Objections&lt;/h1&gt;
+
+&lt;p&gt;&lt;strong&gt;Case 1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Smith and Jones have applied for a job and Smith has strong evidence for the following proposition:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(a) Jones is the man who will get the job, and Jones has ten coins in his pocket&lt;/p&gt;
+
+&lt;p&gt;and proposition (a) entails:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(b) The man who will get the Job has ten coins in his pocket&lt;/p&gt;
+
+&lt;p&gt;Here, (a) logically entails (b), and since (a) is epistemically justified, by A2, Smith is justified in believing that (b).&lt;/p&gt;
+
+&lt;p&gt;Gettier then introduced that, as a matter of fact, Smith instead of Jones is the man who will get the job; and unknown to Smith, he also has ten coins in his pocket. In this case, (b) is true despite the falseness of (a) from which (b) is inferred. However, Smith does not know (b) because he was not aware of the number of coins in his pocket. Gettier concluded that (1)-(3) together are not sufficient for knowledge.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Case 2&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Suppose Smith has a friend Brown whose whereabouts he is ignorant of. Also, Smith has strong evidence to believe that:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(c) Jones owns a Ford&lt;/p&gt;
+
+&lt;p&gt;Smith then randomly selects three city names and entails the following:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(d) Either Jones owns a Ford, or Brown is in Boston&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(e) Either Jones owns a Ford, or Brown is in Barcelona&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;(f) Either Jones owns a Ford, or Brown is in Brest-Litovsk&lt;/p&gt;
+
+&lt;p&gt;Since Smith is justified in believing proposition (c) and propositions (d)-(f) are logically entailed by (c), Smith is justified in believing (c)-(f) under epistemic closure. Now suppose that Jones does not own a Ford, and by coincidence, Brown happens to be in Barcelona. Even though Smith believes and is justified in believing that (e) is true, and (e) is in fact, true, Smith does not know (e) is true. Hence, traditional definition for knowledge as justified true belief is not sufficient for knowledge.&lt;/p&gt;
+
+&lt;h1 id=&quot;responses-to-gettiers-objection&quot;&gt;Responses to Gettier’s Objection&lt;/h1&gt;
+
+&lt;p&gt;One possible defence for the traditional view of propositional knowledge is to reject Gettier’s two assumptions. A1 seems very plausible as we have learnt from the history of science, many well-justified beliefs had been proved false. An example is that the heliocentric model of the universe, which was supported by strong evidence and approved by prominent Greek philosophers at the time, turned out to be false. A2, also known as epistemic closure principle, is a fundamental logic that humanity has adopted. It would be problematic to reject this assumption because in doing so, we have to give up on most of our everyday reasoning. However, if a further condition is added to this principle, we would not need to reject the assumption itself to defend traditional definition of knowledge. Consider object x is an element of O and x is R-related to a set of objects S=[w, y, z, …]. x, by definition, exhibits closure on set S under operation R, thus S is also a member of O by deductive closure. The further condition could be that, for epistemic closure to hold, every element in set S must cohere with every element in set O. That is, if object y, z ⊆ S contradict with other elements in set O, S is not closed under operation R. Now, consider Gettier’s first case. Proposition (a) entails that Smith will not get the job, which contradicts with proposition (b) where Smith turned out to get the job. Then we can say that proposition (b) and that ‘Smith will not get the job’ are not closed under epistemic closure.&lt;/p&gt;
+
+&lt;p&gt;Let us assume that A1, A2 are perfectly sound, Gettier’s arguments do not necessarily follow. Followed by A2, Smith’s justified belief (a) logically entails (b) which is also justified under epistemic closure. The logic of such entailment could be:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P1: (a)&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P2: If (a), then (b)&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;C: (b)&lt;/p&gt;
+
+&lt;p&gt;Then we may ask, does such logical entailment hold if the deduction itself contains a false premise. That is, the deduction which yields (b) can only be sound if its premises are true. In other words, only if that it is on true grounds that (a), can (b) be entailed. In case 1, Gettier claimed that (b) is true even though (a) is in fact false. Such claim does not follow the logic of deduction. I shall take that (a) and (b) are essentially equivalent. “The man who will get the job” in this case is Jones. When Gettier introduces that Smith is the man who gets the job, the subject “The man who will get the job” in proposition (b) still refers to Jones. If (a) were false, so is (b). In Gettier’s case, proposition (b) is not any less true than (a), hence Smith does not have a justified true belief.&lt;/p&gt;
+
+&lt;p&gt;The second case follows the same fashion, although Gettier introduced an “either/or” situation in propositions (d)-(f). Consider the logic behind this entailment:&lt;/p&gt;
+
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P1: (c)&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;P2: If (c), then (d), (e) and (f)&lt;/p&gt;
+&lt;p style=&quot;margin-left:5%; margin-right:5%;&quot;&gt;C: (d), (e), (f)&lt;/p&gt;
+
+&lt;p&gt;Because of the “either/or” situation, for propositions (d)-(f) to be justified belief, Smith has to be justified in believing that Brown is not in either one of the cities. However, Smith has no idea where Brown is, thus Smith is not justified in believing proposition (d)-(f), hence Gettier’s objection does not hold.&lt;/p&gt;
+
+&lt;p&gt;Gettier’s objections to the traditional analysis of knowledge is not sound, even though, it implies a possibility of new perspectives of knowledge. Perhaps one way to view knowledge is to let each reasonable individual take account for knowledge when the external world needs not to be concerned. After all, our beliefs, in the perspective of others, can often be false, yet such beliefs lead us to success in carrying out everyday tasks. Or perhaps knowledge does not need a universal, fixed definition. It could be that we are to adjust our views of knowledge as we refer to it from time to time. Either way, there should not be an absolute definition for knowledge that is ultimately correct. If so, it would take beyond an ordinary being to define knowledge. Until then, we shall build our own understanding of knowledge that cohere with our demands.&lt;/p&gt;
+
+&lt;h1 id=&quot;reference&quot;&gt;Reference:&lt;/h1&gt;
+&lt;p&gt;Audi, R., 1999. The Cambridge Dictionary of Philosophy. Cambridge: Cambridge University Press.
+Gettier, E. L., 1963. Is Justified True Belief Knowledge?. Analysis, Volume 23, pp. 121-3.&lt;/p&gt;</content><author><name>Brett Yang</name></author><category term="[&quot;Philosophy&quot;]" /><summary type="html">For two thousand years, knowledge was indubitably Justified True Belief (JTB). This notion was challenged by the famous Gettier problem, but is Gettiers argument sound?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/default-social-image.png" /><media:content medium="image" url="/assets/default-social-image.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
