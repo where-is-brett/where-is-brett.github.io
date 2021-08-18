@@ -30,7 +30,7 @@ Command-line Demonstration
 --------------------------
 <!-- Video tag -->
 <video style="width:100%;height:100%;" class="mejs__player">
-	<source src="https://brettyang.info/files/videos/ac_circuit_demo.mp4" type="video/mp4">
+	<source src="https://www.brettyang.info/files/videos/ac_circuit_demo.mp4" type="video/mp4">
 	Your browser does not support mp4 video.
 </video>
 
