@@ -20,7 +20,7 @@ Project Report
 	document.addEventListener("adobe_dc_view_sdk.ready", function(){ 
 		var adobeDCView = new AdobeDC.View({clientId: "{{site.adobe-client-id}}", divId: "adobe-dc-view"});
 		adobeDCView.previewFile({
-			content:{location: {url: "https://www.brettyang.info/files/documents/ACCircuit_bZ7PqUxakTpxmVuFVJLbJULpyB5zJu8u.pdf"}},
+			content:{location: {url: "https://brettyang.info/files/documents/ACCircuit_bZ7PqUxakTpxmVuFVJLbJULpyB5zJu8u.pdf"}},
 			metaData:{fileName: "AC Circuit.pdf"}
 		}, {embedMode: "IN_LINE", showDownloadPDF: false, showPrintPDF: false});
 	});
