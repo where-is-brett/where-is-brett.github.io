@@ -15,7 +15,7 @@ redirect_from:
 <!--   document.addEventListener("adobe_dc_view_sdk.ready", function(){  -->
 <!--     var adobeDCView = new AdobeDC.View({clientId: "{{site.adobe-client-id}}", divId: "adobe-dc-view"}); -->
 <!--     adobeDCView.previewFile({ -->
-<!--       content:{location: {url: "https://www.brettyang.info/files/documents/CV_2021.pdf"}}, -->
+<!--       content:{location: {url: "https://brettyang.info/files/documents/CV_2021.pdf"}}, -->
 <!--       metaData:{fileName: "CV.pdf"} -->
 <!--     }, {embedMode: "SIZED_CONTAINER", showDownloadPDF: true, showPrintPDF: true}); -->
 <!--   }); -->
@@ -27,7 +27,7 @@ redirect_from:
 <!--   document.addEventListener("adobe_dc_view_sdk.ready", function(){  -->
 <!--     var adobeDCView = new AdobeDC.View({clientId: "{{site.adobe-client-id}}", divId: "adobe-dc-view"}); -->
 <!--     adobeDCView.previewFile({ -->
-<!--       content:{location: {url: "https://www.brettyang.info/files/documents/CV_2021.pdf"}}, -->
+<!--       content:{location: {url: "https://brettyang.info/files/documents/CV_2021.pdf"}}, -->
 <!--       metaData:{fileName: "Curriculum Vitae.pdf", showPrintPDF: true, showDownloadPDF: false} -->
 <!--     }, {embedMode: "IN_LINE"}); -->
 <!--   }); -->

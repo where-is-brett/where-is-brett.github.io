@@ -121,7 +121,7 @@ service_worker: false # Will turn off the service worker if set to false
 # short_name: "BY" # The web application short name, defaults to the site title
 css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
 formspree: "mbjqpkyq"
-adobe-client-id: "0d7a26ba351440139e7902cdbf8941dc"
+adobe-client-id: "b1420327eac9438089067516360ba32c"
 
 # 8. Site favicons & manifest icons
 favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
