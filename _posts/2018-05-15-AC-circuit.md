@@ -37,7 +37,6 @@ Command-line Demonstration
 Download
 -----------
 
-<!-- DOWNLOAD BUTTON -->
-<a href="https://www.brettyang.info/files/compressed/AC_Circuit.zip" class="btn btn--primary"><i class='fas fa-download'></i> Source Code</a>
+{% include button.html text="Source Code" link="https://www.brettyang.info/files/compressed/AC_Circuit.zip" color="#808080" %} {% include button.html text=".exe" link="https://www.brettyang.info/files/other/AC_Circuit" color="#808080" %}
 
-<a href="https://www.brettyang.info/files/other/AC_Circuit" class="btn btn--primary"><i class='fas fa-download'></i> .exe</a>
+
