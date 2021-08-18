@@ -18,7 +18,7 @@ Project Report
 <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
 <script type="text/javascript">
 	document.addEventListener("adobe_dc_view_sdk.ready", function(){ 
-		var adobeDCView = new AdobeDC.View({clientId: "0d7a26ba351440139e7902cdbf8941dc", divId: "adobe-dc-view"});
+		var adobeDCView = new AdobeDC.View({clientId: "{{site.adobe-client-id}}", divId: "adobe-dc-view"});
 		adobeDCView.previewFile({
 			content:{location: {url: "https://www.brettyang.info/files/documents/ACCircuit_bZ7PqUxakTpxmVuFVJLbJULpyB5zJu8u.pdf"}},
 			metaData:{fileName: "AC Circuit.pdf"}
