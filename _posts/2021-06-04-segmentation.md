@@ -8,6 +8,7 @@ location: "Sydney, Australia"
 category: 
   - Neuroscience
   - Computation
+aside: true
 ---
 
 **This content is not currently available to the public. If you believe that you have the right to access this content, please enter my date of birth (DDMMYYYY) in the PASSWORD prompt below.**
