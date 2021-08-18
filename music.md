@@ -21,7 +21,7 @@ A preview of my unreleased projects. Most of my current projects explore the sou
 <br/><br/>
 
 ### Want to collaborate?
-Good on ya! Send us an email with your ideas by filling out this form. I'll get back to you as soon as I can.
+Good on ya! Send us a message with your ideas using the form below. I will get back to you as soon as I can.
 
 {% include site-form.html %}
 
