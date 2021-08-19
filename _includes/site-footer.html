@@ -2,7 +2,10 @@
   <div class="container">
     <div class="copyright  typeset">
       <small class="small">&copy; {{ site.title }} {{ site.time | date: '%Y' }}&nbsp;&nbsp;&nbsp;&nbsp;</small>
+      <!--      Privacy Policy -->
       <small class="small"><a href="{{site.url}}/terms">Privacy Policy</a></small>
+      <!-- Osano Cookie Preference --> 
+      <small class="small"><a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">&nbsp;&nbsp;&nbsp;&nbsp;Cookie Preferences</a></small>
     </div>
 
     {% include nav-footer.html %}

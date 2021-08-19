@@ -1,6 +1,33 @@
 <!-- Overwrite this file with code you want before the closing head tag -->
 <!--First thing - Cookie Consent Script-->
 <script src="https://cmp.osano.com/6olhfSecI0MQ3iqY/fba033ae-5243-41bf-8a4e-63f86a01fb23/osano.js"></script>
+<!--Hide Cookie Widget-->
+<style>
+	.osano-cm-widget {
+		background-image: url(http://www.brettyang.info/files/images/cookie-icon.png);
+		background-size: contain;
+		border-radius: 100%;
+		width: 40px;
+		height: 40px;
+		right: 1rem;
+		bottom: 1rem;
+		opacity: 0.9;
+		transition-property: opacity, visibility, transform;
+	}
+	.osano-cm-widget svg {
+		display: none;
+	}
+	.osano-cm-widget:focus,
+	.osano-cm-widget:hover {
+		opacity: 1;
+		transform: none;
+	}
+	.osano-cm-widget:active {
+		transform: translateY(1px);
+	}
+</style>
+<!-- The text cookie preference trigger is placed in site-footer.html -->
+
 
 <!-- Mathjax -->
 <script type="text/x-mathjax-config"> MathJax.Hub.Config({ TeX: { equationNumbers: { autoNumber: "all" } } }); </script>
