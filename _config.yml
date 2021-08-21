@@ -149,8 +149,8 @@ navigation_header:
 
 
 navigation_footer:
-- title: Created by Brett Yang
-  url: https://www.brettyang.info/
+- title: #Created by Brett Yang
+  url: #https://www.brettyang.info/
 
 social_links: # Appears in sidebar. Set the urls then uncomment and comment out as desired
   Instagram: https://www.instagram.com/b._.rett
