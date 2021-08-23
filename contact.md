@@ -5,7 +5,7 @@ permalink: /contact
 excerpt: "Get in touch"
 redirect_from: 
   - /contact-form
-  - /contact-us
+  - /contact/
 ---
 <br/>
 {% include site-form.html %}
