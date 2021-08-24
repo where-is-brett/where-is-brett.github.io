@@ -42,7 +42,6 @@ redirect_from:
  * Jan 2021 - present 
    * Laboratory of Molecular Neuroscience and Dementia 
    * Duties: tissue-cutting, immunostaining 
-   * Supervisor: Dr. Damian Holsinger 
   
 ### Skills 
  * Digital Skills 
@@ -70,9 +69,3 @@ redirect_from:
 ### Hobbies and Interests 
  * Football 
    * Fullback at Cooks River Titans in an amateur league under the Australian Football Association. 
-
-<!--  Publications  -->
-<!--  ======  -->
-<!--  <ul>{% for post in site.publications %}  -->
-<!--    {% include archive-single-cv.html %}  -->
-<!--    {% endfor %}</ul>  -->
