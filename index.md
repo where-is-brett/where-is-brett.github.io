@@ -1,7 +1,7 @@
 ---
 title: hello, it's me
 feature_text: |
-  # welcome • wominjeka
+  # welcome . wominjeka
   
 feature_image: "/files/images/grossgasteiger.jpg"
 ---
