@@ -10,9 +10,9 @@ category:
   - Computation
 aside: true
 redirect_from:
-	- /segmentation/
-	- /segmentation
-	- /projects/segmentation
+  - /segmentation/
+  - /segmentation
+  - /projects/segmentation
 ---
 
 **This content is not currently available to the public. If you believe that you have the right to access this content, please enter my date of birth (DDMMYYYY) in the PASSWORD prompt below.**
