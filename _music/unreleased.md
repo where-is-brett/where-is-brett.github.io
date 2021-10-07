@@ -17,7 +17,7 @@ D. B. Cooper (snippet) - coming next January
 
 ---
 
-Unnamed (snippet)
+Unnamed (snippet) - coming next January
 <audio style="width:100%;height:100%;" class="mejs__player">
 	<source src="/files/music/synth_jam_clip.mp3"  type="audio/mp3">
 	Your browser does not support the audio element.
