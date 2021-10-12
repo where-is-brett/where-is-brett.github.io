@@ -35,13 +35,13 @@ redirect_from:
 
 <br />
 ### Education 
- * B.Sc in Physics, University of Melbourne, 2019 
+ * B.Sc Physics, University of Melbourne, 2019 
  * M.MedPhys, University of Sydney, 2021 
   
 ### Laboratory Experience 
- * Jan 2021 - present 
+ * Jan 2021 - Aug 2021 
    * Laboratory of Molecular Neuroscience and Dementia 
-   * Duties: tissue-cutting, immunostaining 
+   * Duties: immunostaining 
   
 ### Skills 
  * Digital Skills 
