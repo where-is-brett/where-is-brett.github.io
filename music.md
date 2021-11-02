@@ -16,8 +16,8 @@ Here you will find a selection of my recent sets. These sets generally reflect t
 ## [Production]({{site.url}}/music/production)
 While I have not officially published any track, you can listen to a collection of home-recorded music that I made in the past. New music will become available here once it is published.
 
-## [Unreleased]({{site.url}}/music/unreleased)
-A preview of my unreleased projects. Most of my current projects explore the sound which reflect the underground minimal house scene. 
+## [Unreleased Heat]({{site.url}}/music/unreleased)
+A preview of my ongoing projects, where I explore sounds which reflect the underground minimal house scene. These tracks will be distributed on Bandcamp and Beatport, with some available via music streaming platforms. 
 
 <br/><br/>
 
