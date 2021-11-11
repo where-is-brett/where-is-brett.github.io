@@ -191,7 +191,7 @@
     <div class="container">
       <h1>&#127929 Scale and Chord Calculator<small></small></h1>
       <div class="jumbotron">
-<!--    <h3></h3>-->
+        <!--    <h3></h3>-->
         <form id="inputForm">
           <div class="form-group">
             <label for="scName">Key</label>
@@ -263,7 +263,7 @@
     <!-- Begin  dynamic UI js -->
     <script onload="brython()">
       function fetchIssues() {
-        var items = JSON.parse(localStorage.getItem('items'));
+        var items = JSON.parse(sessionStorage.getItem('items'));
         var itemsList = document.getElementById('itemsList');
         
         itemsList.innerHTML = '';
@@ -308,14 +308,14 @@
           result: issueResult
         }
         
-        if (localStorage.getItem('items') === null) {
+        if (sessionStorage.getItem('items') === null) {
           var items = [];
           items.push(issue);
-          localStorage.setItem('items', JSON.stringify(items));
+          sessionStorage.setItem('items', JSON.stringify(items));
         } else {
-          var items = JSON.parse(localStorage.getItem('items'));
+          var items = JSON.parse(sessionStorage.getItem('items'));
           items.push(issue);
-          localStorage.setItem('items', JSON.stringify(items));
+          sessionStorage.setItem('items', JSON.stringify(items));
         }
         
         document.getElementById('inputForm').reset();
@@ -327,14 +327,14 @@
       
       
       function deleteItem (id) {
-        var items = JSON.parse(localStorage.getItem('items'));
+        var items = JSON.parse(sessionStorage.getItem('items'));
         
         for(var i = 0; i < items.length; i++) {
           if (items[i].id == id) {
             items.splice(i, 1);
           }
         }
-        localStorage.setItem('items', JSON.stringify(items));
+        sessionStorage.setItem('items', JSON.stringify(items));
         fetchIssues();
       }
     </script>
