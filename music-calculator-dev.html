@@ -412,7 +412,10 @@
       
       
       function play (id) {
-        var play = playKeyboard();
+        
+        Synth instanceof AudioSynth; // true
+        var piano = Synth.createInstrument('piano');
+        
         var items = JSON.parse(sessionStorage.getItem('items'));
         
         for(var i = 0; i < items.length; i++) {
@@ -422,32 +425,33 @@
             var type = items[i].scaleOrChord;
             var noteArray = noteString.split(' ').filter(String);
             
-            
-            var i = 0;
-            while (i < noteString.length) {
-              
-              var rawNote = noteArray[i].replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
-              console.log(type);
-              
-              if (type=="Chords") {
-                play.fnPlayNote(rawNote, 3);
-              } 
-              else if (type=="Scales") {
-                play.fnPlayNote(rawNote, 3);
-                syncDelay(100);
-              }
-              i++;
-              
+            if (type=="Chords") {
+              var time = 0;
+            } 
+            else if (type=="Scales") {
+              var time = 1000;
             }
             
+            var j = 0;                  //  set your counter to 1
+            function playScale() {         //  create a loop function
+              setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+                var rawNote = noteArray[j].replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
+                piano.play(rawNote, 3, 2); //  your code here
+                j++;                    //  increment the counter
+                if (j < noteString.length) {           //  if the counter < 10, call the loop function
+                  playScale();           //  ..  again which will trigger another 
+                }                       //  ..  setTimeout()
+              }, time)
+            }
+            playScale();                   //  start the loop
             
             
           }
         }
-        
         sessionStorage.setItem('items', JSON.stringify(items));
         fetchItems();
-      }
+      }      
+      
       
       
       //    Helper function - delay
