@@ -20,7 +20,7 @@
       b.capitalize {text-transform: capitalise;}
     </style>
   </head>
-  <body onload="brython();fetchIssues();">
+  <body onload="brython();fetchItems();">
     <!--Python script-->
     <script type="text/python">
       from browser import window, document
@@ -259,10 +259,45 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- End external UI js -->
     
+    <!--Check if storage available-->
+    <script>
+      function storageAvailable(type) {
+        var storage;
+        try {
+          storage = window[type];
+          var x = '__storage_test__';
+          storage.setItem(x, x);
+          storage.removeItem(x);
+          return true;
+        }
+        catch(e) {
+          return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+          // acknowledge QuotaExceededError only if there's something already stored
+          (storage && storage.length !== 0);
+        }
+      }
+      
+      if (!storageAvailable('sessionStorage')) {
+        // Inform visitor that storage isn't available
+        window.alert("Storage is disabled in your browser. Please ensure 'sessionStorage' is enabled.");
+      }
+      
+    </script>
+    <!--End sanity check-->
+    
     
     <!-- Begin  dynamic UI js -->
     <script onload="brython()">
-      function fetchIssues() {
+      function fetchItems() {
         var items = JSON.parse(sessionStorage.getItem('items'));
         var itemsList = document.getElementById('itemsList');
         
@@ -285,42 +320,42 @@
         }
       }
       
-      document.getElementById('inputForm').addEventListener('submit', saveIssue);
+      document.getElementById('inputForm').addEventListener('submit', saveItem);
       
       
-      function saveIssue(e) {
+      function saveItem(e) {
         if (document.getElementById('scName').value=='') {
           return
         }
         
-        var issueId = chance.guid();
-        var issueName = document.getElementById('scName').value;
-        var issueKey = document.getElementById('keyInput').value;
-        var issueScaleOrChord = document.getElementById('scaleOrChord').value;
-        var issueStatus = 'Open';
-        var issueResult = window.brythonListener(issueScaleOrChord, issueKey, issueName);
+        var itemId = chance.guid();
+        var itemName = document.getElementById('scName').value;
+        var itemKey = document.getElementById('keyInput').value;
+        var itemScaleOrChord = document.getElementById('scaleOrChord').value;
+        var itemStatus = 'Open';
+        var itemResult = window.brythonListener(itemScaleOrChord, itemKey, itemName);
         
-        var issue = {
-          id: issueId,
-          scName: issueName,
-          Key: issueKey,
-          scaleOrChord: issueScaleOrChord,
-          result: issueResult
+        var item = {
+          id: itemId,
+          scName: itemName,
+          Key: itemKey,
+          scaleOrChord: itemScaleOrChord,
+          result: itemResult
         }
         
         if (sessionStorage.getItem('items') === null) {
           var items = [];
-          items.push(issue);
+          items.push(item);
           sessionStorage.setItem('items', JSON.stringify(items));
         } else {
           var items = JSON.parse(sessionStorage.getItem('items'));
-          items.push(issue);
+          items.push(item);
           sessionStorage.setItem('items', JSON.stringify(items));
         }
         
         document.getElementById('inputForm').reset();
         
-        fetchIssues();
+        fetchItems();
         
         e.preventDefault(); 
       }
@@ -335,7 +370,7 @@
           }
         }
         sessionStorage.setItem('items', JSON.stringify(items));
-        fetchIssues();
+        fetchItems();
       }
     </script>
     
