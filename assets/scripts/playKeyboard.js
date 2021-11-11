@@ -7,6 +7,7 @@ function playKeyboard(){
 	if(isMobile) { var evtListener = ['touchstart', 'touchend']; } else { var evtListener = ['mousedown', 'mouseup']; }
 
 	var __audioSynth = new AudioSynth();
+	__audioSynth.setSampleRate(20000); // lower sample rate for better performance across devices
 	__audioSynth.setVolume(0.5);
 	var __octave = 4; //sets position of middle C, normally the 4th octave
 	

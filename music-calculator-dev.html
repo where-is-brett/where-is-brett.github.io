@@ -282,7 +282,7 @@
 
       <div class="footer">
 <!--    <br><br><br><br><br><br><br><br><br><br><br>-->
-        <p>&copy B._.rett</p>
+        <p>&copy B._.rett 2021</p>
       </div>
     </div>
     
@@ -408,6 +408,7 @@
       function play (id) {
         
         Synth instanceof AudioSynth; // true
+        Synth.setSampleRate(20000); // lower sample rate to 20000Hz to improve performance
         var piano = Synth.createInstrument('piano');
         
         var items = JSON.parse(sessionStorage.getItem('items'));
