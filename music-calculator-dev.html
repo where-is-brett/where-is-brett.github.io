@@ -22,9 +22,7 @@
     <script src="assets/scripts/playKeyboard.js"></script>
     <style>
       .banner {width: 1200px; height: 340px; object-fit: cover; object-position: 0px -90px;}	
-      
       .title { color: #F50890; font-size: 40px; text-shadow: 0px -1px 5px #F5F408;}
-      
       .key { position: absolute; font-family: Helvetica; font-weight: 100; font-size: 12px;
         border: 1px solid rgba(32,32,32,0.2);
         border-radius: 0px 0px 5px 5px;
@@ -32,15 +30,10 @@
         box-shadow: 0px 5px 1px rgba(32,32,32,0.2);
         -webkit-transition: margin 0.05s ease, background-color 0.05s ease, box-shadow 0.05s ease; }
       .key:hover { background-color: #71DB90; }
-      
       .key .label { position: absolute; bottom: 15px; text-align: center; left: 0px; right: 0px; }
-      
       .keyLabel {font-weight: 900; text-shadow: 0px -1px 5px #EBF508; font-size: 15px;}
-      
       .black { background-color: rgb(32,32,32); color: #ffffff; z-index: 1; text-shadow: 0px -1px 1px #FF0000; }
-      
       .white { background-color: #F2F2DE; color: #3008F5; z-index: 0; text-shadow: 0px 1px 1px #08E8F5; }
-      
       .keyboard-holder { margin: 30px auto; height: 200px; position:relative; user-select:none; -webkit-user-select:none;-moz-user-select:none;-o-user-select:none; }
     </style>
     <!--End Piano-->
@@ -258,7 +251,7 @@
           </div>
           
           <div class="form-group">
-            <label for="scName">Description</label>
+            <label for="scName">Sub-category</label>
             <script type="text/javascript" language="JavaScript">
               document.write('<select class="form-control" name="scName" id="scName"><option value="">Selection unavailable.</option></select>')
             </script>
@@ -281,11 +274,14 @@
       </div>
       
       
-      
-      <div ID="keyboard" class="keyboard-holder"></div> <!--calls js to create keyboard with id-->
+      <!-- Synth Keyboard -->
+      <div ID="keyboard" class="keyboard-holder" width: 500px; margin: auto;></div> <!--calls js to create keyboard with id-->
       <script type="text/javascript">playKeyboard()</script>
+      <!---->
+
 
       <div class="footer">
+<!--    <br><br><br><br><br><br><br><br><br><br><br>-->
         <p>&copy B._.rett</p>
       </div>
     </div>
@@ -320,12 +316,10 @@
           (storage && storage.length !== 0);
         }
       }
-      
       if (!storageAvailable('sessionStorage')) {
         // Inform visitor that storage isn't available
         window.alert("Storage is disabled in your browser. Please ensure 'sessionStorage' is enabled.");
       }
-      
     </script>
     <!--End sanity check-->
     
@@ -429,7 +423,7 @@
               var time = 0;
             } 
             else if (type=="Scales") {
-              var time = 1000;
+              var time = 900;
             }
             
             var j = 0;                  //  set your counter to 1
@@ -444,8 +438,6 @@
               }, time)
             }
             playScale();                   //  start the loop
-            
-            
           }
         }
         sessionStorage.setItem('items', JSON.stringify(items));
