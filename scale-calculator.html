@@ -439,8 +439,29 @@
       
       function play (id) {
         
-        Synth instanceof AudioSynth; // true
-//      var piano = Synth.createInstrument('piano');
+        function playScale() {         //  create a loop function
+          setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+            var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
+            
+            if (!(rootNote=="C" || rootNote=="C#")) {
+              
+              if (rawNote=="C" || rawNote=="C#") {
+                octave += 1;
+              }
+            }
+            
+//          var wavfile = new Audio(Synth.generate(synthType, rawNote, octave, 2));
+//          wavfile.play();
+            
+            Synth.play(synthType, rawNote, octave, 2);
+            j++;                    //  increment the counter
+            if (j < noteString.length) {           //  if the counter < 10, call the loop function
+              playScale();           //  ..  again which will trigger another 
+            }                       //  ..  setTimeout()
+          }, time)
+        }
+        
+        Synth instanceof AudioSynth; // create audiosynth object
 
         var items = JSON.parse(sessionStorage.getItem('items'));
         
@@ -464,29 +485,7 @@
             }
             
             var j = 0;    
-            function playScale() {         //  create a loop function
-              setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-                var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
-                
-                if (rootNote=="C" || rootNote=="C#") {
-                  octave+=0;
-                }
-                else {
-                  if (rawNote=="C" || rawNote=="C#") {
-                    octave += 1;
-                  }
-                }
-                
-                var wavfile = new Audio(Synth.generate(synthType, rawNote, octave, 2));
-                wavfile.play();
-                
-                //Synth.play(synthType, rawNote, octave, 2);//piano.play(rawNote, octave, 2);
-                j++;                    //  increment the counter
-                if (j < noteString.length) {           //  if the counter < 10, call the loop function
-                  playScale();           //  ..  again which will trigger another 
-                }                       //  ..  setTimeout()
-              }, time)
-            }
+            
             playScale();                   //  start the loop
           }
         }
