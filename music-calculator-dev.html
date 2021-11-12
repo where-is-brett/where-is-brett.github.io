@@ -14,14 +14,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.1.8/chance.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- Bootstrap -->
-    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
     <!-- Piano - Credit: Keith William Horwood -->
     <script src="assets/scripts/app/audiosynth.js"></script>
     <script src="assets/scripts/app/audiosynth.view.js"></script>
     <style>
-      b { font-weight: bold; }
       .key { position: absolute; font-family: Helvetica; font-weight: 100; font-size: 12px;
         border: 1px solid rgba(32,32,32,0.2);
         border-radius: 0px 0px 5px 5px;
@@ -39,6 +37,7 @@
     </style>
     <!--End Piano-->
     
+    <!-- Text transformation -->	
     <style>
       b.uppercase {text-transform: uppercase;}
       b.lowercase {text-transform: lowercase;}
@@ -221,7 +220,7 @@
                 i+=1
             # reset iterator for the next note
             i=0
-          return string_output
+          return string_output[:-1]
       
       # Export function to use in js section
       window.Read = read
@@ -291,7 +290,6 @@
           </div>
         </div>
       </div>
-      
       
       <!-- Synth Keyboard - Credit: Keith William Horwood -->
       <div class="keyboard-options">
