@@ -17,23 +17,24 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
-    <!-- Piano -->
-    <script src="assets/scripts/audiosynth.js"></script>
-    <script src="assets/scripts/playKeyboard.js"></script>
+    <!-- Piano - Credit: Keith William Horwood -->
+    <script src="assets/scripts/app/audiosynth.js"></script>
+    <script src="assets/scripts/app/audiosynth.view.js"></script>
     <style>
-      .banner {width: 1200px; height: 340px; object-fit: cover; object-position: 0px -90px;}	
-      .title { color: #F50890; font-size: 40px; text-shadow: 0px -1px 5px #F5F408;}
+      b { font-weight: bold; }
       .key { position: absolute; font-family: Helvetica; font-weight: 100; font-size: 12px;
         border: 1px solid rgba(32,32,32,0.2);
         border-radius: 0px 0px 5px 5px;
         cursor:pointer;
         box-shadow: 0px 5px 1px rgba(32,32,32,0.2);
         -webkit-transition: margin 0.05s ease, background-color 0.05s ease, box-shadow 0.05s ease; }
-      .key:hover { background-color: #71DB90; }
-      .key .label { position: absolute; bottom: 15px; text-align: center; left: 0px; right: 0px; }
-      .keyLabel {font-weight: 900; text-shadow: 0px -1px 5px #EBF508; font-size: 15px;}
-      .black { background-color: rgb(32,32,32); color: #ffffff; z-index: 1; text-shadow: 0px -1px 1px #FF0000; }
-      .white { background-color: #F2F2DE; color: #3008F5; z-index: 0; text-shadow: 0px 1px 1px #08E8F5; }
+      .key:hover { background-color: rgb(255,192,32); }
+      .key .label { position: absolute; bottom: 5px; text-align: center; left: 0px; right: 0px; }
+      .black { background-color: rgb(32,32,32); color: #ffffff; z-index: 1; text-shadow: 0px -1px 1px rgba(255,255,255,0.5); }
+      .white { background-color: #ffffff; color: rgb(32,32,32); z-index: 0; text-shadow: 0px 1px 1px rgba(32,32,32,0.5); }
+      .title { text-shadow: 0px 1px 1px rgba(32,32,32,0.2); font-size: 40px; font-weight: bold; font-family: Helvetica; padding: 10px; text-align: center; }
+      .small { font-size: 20px; }
+      .keyboard-options { margin: 30px auto; width: auto; text-align: center; font-size: 12px; font-weight: 200; padding:10px; }
       .keyboard-holder { margin: 30px auto; height: 200px; position:relative; user-select:none; -webkit-user-select:none;-moz-user-select:none;-o-user-select:none; }
     </style>
     <!--End Piano-->
@@ -274,21 +275,36 @@
       </div>
       
       
-      <!-- Synth Keyboard -->
-      <div ID="keyboard" class="keyboard-holder" width: 500px; margin: auto;></div> <!--calls js to create keyboard with id-->
-      <script type="text/javascript">playKeyboard()</script>
-      <!---->
+      <!-- Synth Keyboard - Credit: Keith William Horwood -->
+      <div class="keyboard-options">
+        Sound
+        <select ID="sound">
+          <option value="0" selected>Keyboard</option>
+          <option value="1">Organ</option>
+          <option value="2">Acoustic Guitar</option>
+          <option value="3">Synth Wave</option>
+        </select>
+        <div ID="keyboard" class="keyboard-holder"></div>
+        <div class="keyboard-options">
+          Range [C<span ID="OCTAVE_LOWER">3</span>-B<span ID="OCTAVE_UPPER">4</span>]
+          <input type="button" ID="-_OCTAVE" value="-" />
+          <input type="button" ID="+_OCTAVE" value="+" /><br />
+          <i>(Use left/right arrows to adjust with keyboard)</i>
+        </div>
+        <script type="text/javascript">
+          var a = new AudioSynthView();
+          a.draw();
+        </script>
+      </div>
+      <!--End synth keyboard-->
 
 
       <div class="footer">
-<!--    <br><br><br><br><br><br><br><br><br><br><br>-->
         <p>&copy B._.rett 2021</p>
       </div>
     </div>
     
-    
-    
-    
+
     
     <!--Check if storage available-->
     <script>
