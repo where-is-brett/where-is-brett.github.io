@@ -207,8 +207,26 @@
               data = modes[key][subtype]
           return dump(data, separator=' ')[:-1]
       
+      def simplify_enharmonics(string_input):
+          audiosynth_notes = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+          string_input = string_input.replace('\u266d', 'b').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##')
+          note_list = string_input.split(' ')  
+          string_output = ""
+          i=0
+          for note in note_list:
+            for enharmonics in notes:
+              if note in enharmonics: # locate the enharmonic group
+                string_output = string_output + audiosynth_notes[i] + ' '
+              else:
+                i+=1
+            # reset iterator for the next note
+            i=0
+          return string_output
+      
       # Export function to use in js section
-      window.brythonListener = read
+      window.Read = read
+      window.simplifyEnharmonics = simplify_enharmonics
+
     </script>
     <!--End Python script-->
     
@@ -379,7 +397,7 @@
         var itemKey = document.getElementById('keyInput').value;
         var itemScaleOrChord = document.getElementById('scaleOrChord').value;
         var itemStatus = 'Open';
-        var itemResult = window.brythonListener(itemScaleOrChord, itemKey, itemName);
+        var itemResult = window.Read(itemScaleOrChord, itemKey, itemName);
         
         var item = {
           id: itemId,
@@ -420,21 +438,21 @@
       }
       
       
-      
       function play (id) {
         
         Synth instanceof AudioSynth; // true
-        Synth.setSampleRate(20000); // lower sample rate to 20000Hz to improve performance
         var piano = Synth.createInstrument('piano');
-        
+
         var items = JSON.parse(sessionStorage.getItem('items'));
         
         for(var i = 0; i < items.length; i++) {
           if (items[i].id == id) {
             
             var noteString = items[i].result;
+            var simplifiedNotes = window.simplifyEnharmonics(noteString); // simplify enharmonics for audiosynth playback
             var type = items[i].scaleOrChord;
-            var noteArray = noteString.split(' ').filter(String);
+            var noteArray = simplifiedNotes.split(' ').filter(String);
+            var rootNote = noteArray[0];
             
             if (type=="Chords") {
               var time = 0;
@@ -443,11 +461,20 @@
               var time = 900;
             }
             
-            var j = 0;                  //  set your counter to 1
+            var j = 0;    
             function playScale() {         //  create a loop function
               setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-                var rawNote = noteArray[j].replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
-                piano.play(rawNote, 3, 2); //  your code here
+                var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
+                
+                if (rootNote=="C") {
+                  octave+=0;
+                }
+                else {
+                  if (rawNote=="C" || rawNote=="C#") {
+                    octave += 1;
+                  }
+                }
+                piano.play(rawNote, octave, 2);
                 j++;                    //  increment the counter
                 if (j < noteString.length) {           //  if the counter < 10, call the loop function
                   playScale();           //  ..  again which will trigger another 

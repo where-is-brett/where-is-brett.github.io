@@ -23,8 +23,8 @@ function AudioSynthView() {
 			octaveName[i].innerHTML = (val + __octave);
 		}
 	
-		document.getElementById('OCTAVE_LOWER').innerHTML = __octave-1;
-		document.getElementById('OCTAVE_UPPER').innerHTML = __octave+1;
+		document.getElementById('OCTAVE_LOWER').innerHTML = __octave-1;// __octave-1;
+		document.getElementById('OCTAVE_UPPER').innerHTML = __octave;// __octave+1;
 	
 	};
 
