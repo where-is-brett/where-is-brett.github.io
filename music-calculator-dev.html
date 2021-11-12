@@ -297,7 +297,7 @@
       <div class="keyboard-options">
         Sound
         <select ID="sound">
-          <option value="0" selected>Keyboard</option>
+          <option value="0" selected>Piano</option>
           <option value="1">Organ</option>
           <option value="2">Acoustic Guitar</option>
           <option value="3">Synth Wave</option>
@@ -437,11 +437,12 @@
         fetchItems();
       }
       
+      var octave = 3;
       
       function play (id) {
         
         Synth instanceof AudioSynth; // true
-        var piano = Synth.createInstrument('piano');
+//      var piano = Synth.createInstrument('piano');
 
         var items = JSON.parse(sessionStorage.getItem('items'));
         
@@ -453,6 +454,9 @@
             var type = items[i].scaleOrChord;
             var noteArray = simplifiedNotes.split(' ').filter(String);
             var rootNote = noteArray[0];
+            
+            var sythnTypeSelection = document.getElementById('sound')
+            var synthType = sythnTypeSelection.options[sythnTypeSelection.selectedIndex].value;
             
             if (type=="Chords") {
               var time = 0;
@@ -466,7 +470,7 @@
               setTimeout(function() {   //  call a 3s setTimeout when the loop is called
                 var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
                 
-                if (rootNote=="C") {
+                if (rootNote=="C" || rootNote=="C#") {
                   octave+=0;
                 }
                 else {
@@ -474,7 +478,7 @@
                     octave += 1;
                   }
                 }
-                piano.play(rawNote, octave, 2);
+                Synth.play(synthType, rawNote, octave, 2);//piano.play(rawNote, octave, 2);
                 j++;                    //  increment the counter
                 if (j < noteString.length) {           //  if the counter < 10, call the loop function
                   playScale();           //  ..  again which will trigger another 
