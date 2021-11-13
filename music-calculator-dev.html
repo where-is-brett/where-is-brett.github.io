@@ -13,6 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.1.8/chance.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vexflow@3.0.9/releases/vexflow-min.js"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     
@@ -358,6 +359,11 @@
     
     <!-- Begin  dynamic UI js -->
     <script onload="brython()">
+      
+      
+      
+      
+      
       function fetchItems() {
         var items = JSON.parse(sessionStorage.getItem('items'));
         var itemsList = document.getElementById('itemsList');
@@ -365,20 +371,79 @@
         itemsList.innerHTML = '';
         
         for (var i = 0; i < items.length; i++) {
-          var id = items[i].id;
+          var ID = items[i].id;
           var key = items[i].Key;
           var soc = items[i].scaleOrChord;
           var scn = items[i].scName;
           var res = items[i].result;
+          var rootNote = res[0];
+          var noteList = res.split(' ').filter(String)
+          
           
           itemsList.innerHTML +=   '<div class="well">'+
           '<p><span class="label label-info">' + soc.slice(0,-1) + '</span><br></p>'+
           '<h5>' + key.replace('b', '\u266d').replace('#', '\u266f').replace('bb', '\1d12b').replace('##', '\1d12a') + ' '+'<b class="lowercase">'+ scn + ' ' + soc.slice(0,-1) + '</b>' + ' includes the following notes:' + '<br></h5>'+
-          '<h3>'+ res +'</h3>'+
-          
-          '<br><a href="#" class="btn btn-warning" onclick="play(\''+id+'\')">Play</a> '+
-          '<a href="#" class="btn btn-danger" onclick="deleteItem(\''+id+'\')">Delete</a>'+
+          '<h3>'+ res +'</h3>'+ 
+          '<div id='+ ID +'></div>' + // VexFlow notation
+          '<br><a href="#" class="btn btn-warning" onclick="play(\''+ID+'\')">Play</a> '+
+          '<a href="#" class="btn btn-danger" onclick="deleteItem(\''+ID+'\')">Delete</a>'+
           '</div>';
+          
+          
+          function showScore () {
+            VF = Vex.Flow;
+            // Create an SVG renderer and attach it to the DIV element named "boo".
+            var div = document.getElementById(ID)
+            var renderer = new VF.Renderer(div, 3);
+            // Size our SVG:
+            renderer.resize(400, 150);
+            // And get a drawing context:
+            var context = renderer.getContext();
+            // Create a stave at position 10, 40 of width X00 on the canvas.
+            var stave = new VF.Stave(10, 40, 300);
+            // Add a clef and time signature.
+            stave.addClef("treble").addTimeSignature("4/4");
+            // Connect it to the rendering context and draw!
+            stave.setContext(context).draw();
+            
+            var notes = [];
+            if (soc=="Chords") { // for chords
+              var chord = [];
+              for (var i = 0; i < noteList.length; i++) {
+                var note = noteList[i].replace('\u266d', 'b').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
+                chord.push(note.toLowerCase() + "/" + 4);
+                
+              }
+              notes.push(new VF.StaveNote({clef: "treble", keys: chord, duration: "1" }));
+              // Create a voice in 4/4 and add the notes from above
+              var voice = new VF.Voice({num_beats: 1,  beat_value: 1});
+            } 
+            else if (soc=="Scales") { // for scales
+              var oct = 4
+              for (var i = 0; i < noteList.length; i++) {
+                var note = noteList[i].replace('\u266d', 'b').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
+                if (rootNote!="C" && rootNote!="C#") {
+                  if (note=="C" || note=="C#") {
+                    oct += 1;
+                  }
+                }
+                notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }));
+              }
+              // Create a voice in 4/4 and add the notes from above
+              var voice = new VF.Voice({num_beats: 7,  beat_value: 4});
+            }
+            
+            
+            voice.addTickables(notes);
+            // Format and justify the notes (pixels).
+            var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 250);
+            // Render voice
+            voice.draw(context, stave);
+
+          }
+          
+          showScore();
+          
         }
       }
       
@@ -397,12 +462,13 @@
         var itemStatus = 'Open';
         var itemResult = window.Read(itemScaleOrChord, itemKey, itemName);
         
+        
         var item = {
           id: itemId,
           scName: itemName,
           Key: itemKey,
           scaleOrChord: itemScaleOrChord,
-          result: itemResult
+          result: itemResult,
         }
         
         if (sessionStorage.getItem('items') === null) {
@@ -435,8 +501,8 @@
         fetchItems();
       }
       
-      var octave = 3;
       
+      var octave = 3;
       function play (id) {
         
         Synth instanceof AudioSynth; // true
@@ -467,7 +533,6 @@
             function playScale() {         //  create a loop function
               setTimeout(function() {   //  call a 3s setTimeout when the loop is called
                 var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
-                
                 if (rootNote=="C" || rootNote=="C#") {
                   octave+=0;
                 }
@@ -488,6 +553,7 @@
         }
         sessionStorage.setItem('items', JSON.stringify(items));
         fetchItems();
+        var octave = 3; // reset octave after playback
       }      
       
       
