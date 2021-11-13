@@ -293,7 +293,7 @@
       </div>
       
       <!-- Synth Keyboard - Credit: Keith William Horwood -->
-      <div class="keyboard-options">
+      <div class="keyboard-options" id="keyboard-options">
         Sound
         <select ID="sound">
           <option value="0" selected>Piano</option>
@@ -361,9 +361,6 @@
     <script onload="brython()">
       
       
-      
-      
-      
       function fetchItems() {
         var items = JSON.parse(sessionStorage.getItem('items'));
         var itemsList = document.getElementById('itemsList');
@@ -379,20 +376,30 @@
           var rootNote = res[0];
           var noteList = res.split(' ').filter(String)
           
-          
-          itemsList.innerHTML +=   '<div class="well">'+
-          '<p><span class="label label-info">' + soc.slice(0,-1) + '</span><br></p>'+
-          '<h5>' + key.replace('b', '\u266d').replace('#', '\u266f').replace('bb', '\1d12b').replace('##', '\1d12a') + ' '+'<b class="lowercase">'+ scn + ' ' + soc.slice(0,-1) + '</b>' + ' includes the following notes:' + '<br></h5>'+
-          '<h3>'+ res +'</h3>'+ 
-          '<div id='+ ID +'></div>' + // VexFlow notation
-          '<br><a href="#" class="btn btn-warning" onclick="play(\''+ID+'\')">Play</a> '+
-          '<a href="#" class="btn btn-danger" onclick="deleteItem(\''+ID+'\')">Delete</a>'+
-          '</div>';
-          
-          
-          function splitNote(noteIn) {
-            
+          // Temporarily hide elements on mobile devices
+          var synthDiv = document.getElementById("keyboard-options");
+          if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+            itemsList.innerHTML +=   '<div class="well">'+
+            '<p><span class="label label-info">' + soc.slice(0,-1) + '</span><br></p>'+
+            '<h5>' + key.replace('b', '\u266d').replace('#', '\u266f').replace('bb', '\1d12b').replace('##', '\1d12a') + ' '+'<b class="lowercase">'+ scn + ' ' + soc.slice(0,-1) + '</b>' + ' includes the following notes:' + '<br></h5>'+
+            '<h3>'+ res +'</h3>'+ 
+            '<div id='+ ID +'></div>' + // VexFlow notation
+            '<a href="#" class="btn btn-danger" onclick="deleteItem(\''+ID+'\')">Delete</a>'+
+            '</div>';
+            synthDiv.style.display = 'none';
+          }else{
+            itemsList.innerHTML +=   '<div class="well">'+
+            '<p><span class="label label-info">' + soc.slice(0,-1) + '</span><br></p>'+
+            '<h5>' + key.replace('b', '\u266d').replace('#', '\u266f').replace('bb', '\1d12b').replace('##', '\1d12a') + ' '+'<b class="lowercase">'+ scn + ' ' + soc.slice(0,-1) + '</b>' + ' includes the following notes:' + '<br></h5>'+
+            '<h3>'+ res +'</h3>'+ 
+            '<div id='+ ID +'></div>' + // VexFlow notation
+            '<br><a href="#" class="btn btn-warning" onclick="play(\''+ID+'\')">Play</a> '+
+            '<a href="#" class="btn btn-danger" onclick="deleteItem(\''+ID+'\')">Delete</a>'+
+            '</div>';
+            synthDiv.style.display = 'block';
           }
+
+          
           
           
           function showScore () {
@@ -411,8 +418,6 @@
             stave.addClef("treble").addTimeSignature("4/4");
             // Connect it to the rendering context and draw!
             stave.setContext(context).draw();
-            
-            
             
             var notes = [];
             if (soc=="Chords") { // for chords
