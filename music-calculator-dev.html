@@ -228,7 +228,10 @@
       window.simplifyEnharmonics = simplify_enharmonics
 
     </script>
+    
     <!--End Python script-->
+    
+    
     
     
     <div class="container">
@@ -357,8 +360,24 @@
     <!--End sanity check-->
     
     
+    <!-- Device check -->
+    <script>
+      // Check whether to show or hide keyboard according to device type
+      // this is a temporary solution to the malfunction of synth keyboard on mobile devices(as a result of GitHub pages hosting)
+      var synthDiv = document.getElementById("keyboard-options");
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+        synthDiv.style.display = 'none';
+      }else{
+        synthDiv.style.display = 'block';
+      }
+    </script>
+    <!--end device check-->
+    
+    
+    
     <!-- Begin  dynamic UI js -->
     <script onload="brython()">
+      
       
       
       function fetchItems() {
