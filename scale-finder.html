@@ -26,7 +26,7 @@ redirect_from:
 <!--<link rel="stylesheet" href="https://brettyang.info/assets/scripts/bootstrap.min.js">-->
 	
 	<!-- Piano - Credit: Keith William Horwood -->
-	<script src="https://brettyang.info/assets/scripts/app/audiosynth.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/audiosynth/1.0.0/audiosynth.min.js"></script>
 	<script src="https://brettyang.info/assets/scripts/app/audiosynth.view.js"></script>
 	<style>
 		.key { position: absolute; font-family: Avenir; font-weight: 100; font-size: 12px;
@@ -418,7 +418,7 @@ redirect_from:
 		
 		const C_enharmonics = ['B#', 'C',  'Dbb', 'B##', 'C#', 'Db']; 
 		const modifiedEnharmonics = [
-			
+			// this is a modified version of enharmonics notes. It serves as a scorer for notes which is useful when determining the octaves for each note in a scale. c.f. showScore()
 			['Cb',  'C',  'Dbb'],
 			['B##', 'C#', 'Db'],
 			['C##', 'D',  'Ebb'],
@@ -433,6 +433,8 @@ redirect_from:
 			['A##', 'B',  'B#'],
 			
 		]
+		const audiosynth_notes = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+		
 		
 		function fetchItems() {
 			var items = JSON.parse(sessionStorage.getItem('items'));
@@ -448,8 +450,6 @@ redirect_from:
 				var soc = items[i].scaleOrChord;
 				var scn = items[i].scName;
 				var res = items[i].result;
-				var rootNote = res[0];
-				var rootNote = rootNote.replace('\1d12b', 'bb').replace('\1d12a', '##').replace('\u266d', 'b').replace('\u266f','#');
 				var noteList = res.split(' ').filter(String)
 				
 				
@@ -630,7 +630,7 @@ redirect_from:
 		}
 		
 		
-		var octave = 3;
+		var octave = 4;
 		function play (id) {
 			
 			Synth instanceof AudioSynth; // true
@@ -645,7 +645,6 @@ redirect_from:
 					var simplifiedNotes = window.simplifyEnharmonics(noteString); // simplify enharmonics for audiosynth playback
 					var type = items[i].scaleOrChord;
 					var noteArray = simplifiedNotes.split(' ').filter(String);
-					var rootNote = noteArray[0];
 					
 					var sythnTypeSelection = document.getElementById('sound')
 					var synthType = sythnTypeSelection.options[sythnTypeSelection.selectedIndex].value;
@@ -657,35 +656,43 @@ redirect_from:
 						var time = 900;
 					}
 					
+					var playList = [];
+					for (var k = 0; k < noteArray.length; k++) {
+						var note = noteArray[k];
+						for (var q = 0; q < audiosynth_notes.length; q++) {
+							if (audiosynth_notes[q].includes(note)){
+								if (k==0){
+									var startingScore = q;
+										var oct = octave;
+								}
+								else {
+									var currentScore = q;
+									if (currentScore >= startingScore) {
+											var oct = octave;
+									}else {
+										var oct = octave+1;
+									}
+								}
+							}
+						}
+						if (note=='B#') {
+							octave+=1;
+						}
+						playList.push([note, oct]);
+					}
+					console.log(playList);
+					
 					var j = 0;    
 					function playScale() {         //  create a loop function
 						setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-							var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
-							if (C_enharmonics.includes(rootNote)) {
-								octave = 3;
-								Synth.play(synthType, rawNote, octave, 2);
-							}
-							else if (rootNote=='B' && rawNote=='B'){
-								Synth.play(synthType, rawNote, 2, 2);
-							}
-							else {
-								if (C_enharmonics.includes(rawNote) && !['B#','Bb','B'].includes(rootNote)) {
-									octave = 4;
-								}
-								Synth.play(synthType, rawNote, octave, 2);
-								
-							}
-							
-							
+							Synth.play(synthType, playList[j][0], playList[j][1], 2)
 							j++;                    //  increment the counter
 							if (j < noteString.length) {           //  if the counter < 10, call the loop function
 								playScale();           //  ..  again which will trigger another 
 							}                       //  ..  setTimeout()
 						}, time)
-						
 					}
 					playScale();                   //  start the loop
-					octave = 3; // reset octave after playback
 				}
 			}
 			sessionStorage.setItem('items', JSON.stringify(items));
@@ -693,16 +700,6 @@ redirect_from:
 			
 		}
 		
-		
-		
-		//		//    Helper function - delay
-		//		function syncDelay(milliseconds){
-		//			var start = new Date().getTime();
-		//			var end=0;
-		//			while( (end-start) < milliseconds){
-		//				end = new Date().getTime();
-		//			}
-		//		}
 		
 		
 	</script>
