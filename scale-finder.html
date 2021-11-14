@@ -513,7 +513,7 @@ redirect_from:
 						var incre = 0;
 						for (var i = 0; i < noteList.length; i++) {
 							var note = noteList[i].replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
-							if (C_enharmonics.includes(rootNote)) {
+							if (!C_enharmonics.includes(rootNote)) {
 								if (C_enharmonics.includes(note) && note!='B#') {
 										oct += 1;
 								}
@@ -634,15 +634,20 @@ redirect_from:
 					function playScale() {         //  create a loop function
 						setTimeout(function() {   //  call a 3s setTimeout when the loop is called
 							var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
-							if (rootNote=="C" || rootNote=="C#" || rootNote=="Cb") {
+							if (C_enharmonics.includes(rootNote)) {
 								octave+=0;
+								Synth.play(synthType, rawNote, octave, 2);
+							}
+							else if (rootNote=='B' && rawNote=='B'){
+								Synth.play(synthType, rawNote, 2, 2);
 							}
 							else {
 								if (C_enharmonics.includes(rawNote)) {
 									octave += 1;
 								}
+								Synth.play(synthType, rawNote, octave, 2);
 							}
-							Synth.play(synthType, rawNote, octave, 2);//piano.play(rawNote, octave, 2);
+							
 							
 							j++;                    //  increment the counter
 							if (j < noteString.length) {           //  if the counter < 10, call the loop function
