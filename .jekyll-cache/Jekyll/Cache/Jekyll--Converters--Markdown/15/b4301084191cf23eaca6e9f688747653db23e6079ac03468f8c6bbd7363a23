@@ -1,0 +1,733 @@
+I"4i<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<!-- Brython Script -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.3/brython.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.3/brython_stdlib.min.js"></script>
+	<!-- external UI js-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.1.8/chance.min.js"></script>
+	<script src="https://unpkg.com/vexflow@3.0.9/releases/vexflow-debug.js"></script>
+	
+	<!-- Bootstrap -->
+<!--<script src="https://brettyang.info/assets/scripts/bootstrap.min.js"></script>-->
+<!--<link rel="stylesheet" href="https://brettyang.info/assets/scripts/bootstrap.min.js">-->
+	
+	<!-- Piano - Credit: Keith William Horwood -->
+	<script src="https://brettyang.info/assets/app/audiosynth.min.js"></script>
+	<script src="https://brettyang.info/assets/scripts/app/audiosynth.view.js"></script>
+	<style>
+		.key { position: absolute; font-family: Avenir; font-weight: 100; font-size: 12px;
+			border: 1px solid rgba(32,32,32,0.2);
+			border-radius: 0px 0px 5px 5px;
+			cursor:pointer;
+			box-shadow: 0px 5px 1px rgba(32,32,32,0.2);
+			-webkit-transition: margin 0.05s ease, background-color 0.05s ease, box-shadow 0.05s ease; }
+		.key:hover { background-color: rgb(255,192,32); }
+		.key .label { position: absolute; bottom: 5px; text-align: center; left: 0px; right: 0px; }
+		.black { background-color: rgb(32,32,32); color: #ffffff; z-index: 1; text-shadow: 0px -1px 1px rgba(255,255,255,0.5); }
+		.white { background-color: #ffffff; color: rgb(32,32,32); z-index: 0; text-shadow: 0px 1px 1px rgba(32,32,32,0.5); }
+		.title { text-shadow: 0px 1px 1px rgba(32,32,32,0.2); font-size: 40px; font-weight: bold; font-family: Helvetica; padding: 10px; text-align: center; }
+		.small { font-size: 20px; }
+		.keyboard-options { margin: 30px auto; width: auto; text-align: center; font-size: 12px; font-weight: 200; padding:10px; }
+		.keyboard-holder { margin: 30px auto; height: 200px; position:relative; user-select:none; -webkit-user-select:none;-moz-user-select:none;-o-user-select:none; }
+	</style>
+	<!--End Piano-->
+	<!-- Alert Box -->
+	<style>
+		.alert {
+			padding: 20px;
+			background-color: #2196F3; /* Blue */
+			color: white;
+		}
+		.closebtn {
+			margin-left: 15px;
+			color: white;
+			font-weight: bold;
+			float: right;
+			font-size: 22px;
+			line-height: 20px;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+		.closebtn:hover {
+			color: black;
+		}
+	</style>
+	<!--End Alert Box-->
+	<!-- Text transformation -->	
+	<style>
+		b.uppercase {text-transform: uppercase;}
+		b.lowercase {text-transform: lowercase;}
+		b.capitalize {text-transform: capitalise;}
+	</style>
+</head>
+
+<body onload="brython();fetchItems();">
+	<!--Python script-->
+	<script type="text/python">
+		from browser import window, document
+		
+		# Define all variables
+		notes = [
+			['B#',  'C',  'Dbb'],
+			['B##', 'C#', 'Db'],
+			['C##', 'D',  'Ebb'],
+			['D#',  'Eb', 'Fbb'],
+			['D##', 'E',  'Fb'],
+			['E#',  'F',  'Gbb'],
+			['E##', 'F#', 'Gb'],
+			['F##', 'G',  'Abb'],
+			['G#',  'Ab'],
+			['G##', 'A',  'Bbb'],
+			['A#',  'Bb', 'Cbb'],
+			['A##', 'B',  'Cb'],
+		]
+		intervals_major = [
+			[ '1', 'bb2'],
+			['b2',  '#1'],
+			[ '2', 'bb3',   '9'],
+			['b3',  '#2'],
+			[ '3',  'b4'],
+			[ '4',  '#3',  '11'],
+			['b5',  '#4', '#11'],
+			[ '5', 'bb6'],
+			['b6',  '#5'],
+			[ '6', 'bb7',  '13'],
+			['b7',  '#6'],
+			[ '7',  'b8'],
+			[ '8',  '#7'],
+		]
+		formulae = {
+			# Scale formulae
+			'Scales': {
+				# Major scale, its modes, and minor scale
+				'Major':              '1,2,3,4,5,6,7',
+				'Minor':              '1,2,b3,4,5,b6,b7',
+				# Melodic minor and its modes
+				'Melodic Minor':      '1,2,b3,4,5,6,7',
+				# Harmonic Minor and its modes
+				'Harmonic Minor':     '1,2,b3,4,5,b6,7',
+				# Blues Scales
+				'Major Blues':        '1,2,b3,3,5,6',
+				'Minor Blues':        '1,b3,4,b5,5,b7',
+				# Penatatonic Scales
+				'Pentatonic Major':   '1,2,3,5,6',
+				'Pentatonic Minor':   '1,b3,4,5,b7',
+				'Pentatonic Blues':   '1,b3,4,b5,5,b7',
+			},
+			'Chords': {
+				# Major
+				'Major':              '1,3,5',
+				'Major 6':            '1,3,5,6',
+				'Major 6/9':          '1,3,5,6,9',
+				'Major 7':            '1,3,5,7',
+				'Major 9':            '1,3,5,7,9',
+				'Major 13':           '1,3,5,7,9,11,13',
+				'Major 7#11':        '1,3,5,7,#11',
+				# Minor
+				'Minor':              '1,b3,5',
+				'Minor 6':            '1,b3,5,6',
+				'Minor 6/9':          '1,b3,5,6,9',
+				'Minor 7':            '1,b3,5,b7',
+				'Minor 9':            '1,b3,5,b7,9',
+				'Minor 11':           '1,b3,5,b7,9,11',
+				'Minor 7b5':         '1,b3,b5,b7',
+				# Dominant
+				'Dominant 7':         '1,3,5,b7',
+				'Dominant 9':         '1,3,5,b7,9',
+				'Dominant 11':        '1,3,5,b7,9,11',
+				'Dominant 13':        '1,3,5,b7,9,11,13',
+				'Dominant 7#11':     '1,3,5,b7,#11',
+				# Diminished
+				'Diminished':         '1,b3,b5',
+				'Diminished 7':       '1,b3,b5,bb7',
+				'Diminished 7 Half':  '1,b3,b5,b7',
+				# Augmented
+				'Augmented':          '1,3,#5',
+				# Suspended
+				'sus2':               '1,2,5',
+				'sus4':               '1,4,5',
+				'7sus2':              '1,2,5,b7',
+				'7sus4':              '1,4,5,b7',
+			},
+		}
+		major_mode_rotations = {
+			'Ionian':     0,
+			'Dorian':     1,
+			'Phrygian':   2,
+			'Lydian':     3,
+			'Mixolydian': 4,
+			'Aeolian':    5,
+			'Locrian':    6,
+		}
+		keys = [
+			'B#',  'C', 'C#', 'Db', 'D', 'D#',  'Eb', 'E',  'Fb', 'E#',  'F',
+			'F#', 'Gb', 'G', 'G#',  'Ab', 'A', 'A#',  'Bb', 'B',  'Cb',
+		]
+		modes = {}
+		
+		
+		# Function definitions
+		def find_note_index(scale, search_note):
+			for index, note in enumerate(scale):
+				if type(note) == list:
+					if search_note in note:
+						return index
+				elif type(note) == str:
+					if search_note == note:
+						return index
+		
+		def rotate(scale, n):
+			return scale[n:] + scale[:n]
+		
+		def chromatic(key):
+			num_rotations = find_note_index(notes, key)
+			return rotate(notes, num_rotations)
+		
+		def make_intervals(key):
+			labels = {}
+			chromatic_scale = chromatic(key)
+			alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+			alphabet_key = rotate(alphabet, find_note_index(alphabet, key[0]))
+			for index, interval_list in enumerate(intervals_major):
+				notes_to_search = chromatic_scale[index % len(chromatic_scale)]
+				for interval_name in interval_list:
+					degree = int(interval_name.replace('b', '').replace('#', '')) - 1
+					alphabet_to_search = alphabet_key[degree % len(alphabet_key)]
+					try:
+						note = [x for x in notes_to_search if x[0] == alphabet_to_search][0]
+					except:
+						note = notes_to_search[0]
+					labels[interval_name] = note
+			return labels
+		
+		def make_formula(formula, labeled):
+			return [labeled[x] for x in formula.split(',')]
+		
+		def dump(scale, separator=' '):
+			return separator.join(['{:<3s}'.format(x) for x in scale]).replace('b', '\u266d').replace('#', '\u266f').replace('bb', '\1d12b').replace('##', '\1d12a')
+			
+		for key in keys:
+			intervs = make_intervals(key)
+			major_scale = make_formula(formulae['Scales']['Major'], intervs)
+			for m in major_mode_rotations:
+				v = rotate(major_scale, major_mode_rotations[m])
+				if v[0] not in modes:
+					modes[v[0]] = {}
+				modes[v[0]][m] = v
+		
+		def read(type, key, subtype):
+			intvl = make_intervals(key)
+			if subtype not in major_mode_rotations:
+				data = make_formula(formulae[type][subtype], intvl)
+			else:
+				data = modes[key][subtype]
+			return dump(data, separator=' ')[:-1]
+		
+		def simplify_enharmonics(string_input):
+			audiosynth_notes = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+			string_input = string_input.replace('\u266d', 'b').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##')
+			note_list = string_input.split(' ')  
+			string_output = ""
+			i=0
+			for note in note_list:
+				for enharmonics in notes:
+					if note in enharmonics: # locate the enharmonic group
+						string_output = string_output + audiosynth_notes[i] + ' '
+					else:
+						i+=1
+				# reset iterator for the next note
+				i=0
+			return string_output[:-1]
+		
+		# Export function to use in js section
+		window.Read = read
+		window.simplifyEnharmonics = simplify_enharmonics
+		
+	</script>
+	
+	<!--End Python script-->
+	
+	
+	
+	
+	<br />
+	<div class="container">
+		<!--	Alert box for mobile devices -->
+		<div id="alertBox"></div>
+		
+		<div class="jumbotron">
+			<!--    <h3></h3>-->
+			<form id="inputForm">
+				<div class="form-group">
+					<label for="scName">Key Signature</label>
+					<select class="form-control" id="keyInput">
+						<option value="C">C</option>
+						<option value="C#">C#</option>
+						<option value="Db">Db</option>
+						<option value="D">D</option>
+						<option value="Eb">Eb</option>
+						<option value="E">E</option>
+						<option value="Fb">Fb</option>
+						<option value="E#">E#</option>
+						<option value="F">F</option>
+						<option value="F#">F#</option>
+						<option value="Gb">Gb</option>
+						<option value="G#">G#</option>
+						<option value="Ab">Ab</option>
+						<option value="A">A</option>
+						<option value="A#">A#</option>
+						<option value="Bb">Bb</option>
+						<option value="B">B</option>
+						<option value="B#">B#</option>
+						<option value="Cb">Cb</option>
+					</select> 
+				</div>
+				<div class="form-group">
+					<label for="scName">Are you looking for a scale or a chord?</label>
+					<select class="form-control" id="scaleOrChord" onchange="javascript: dynamicdropdown(this.options[this.selectedIndex].value);">
+						<option value="">Options...</option>
+						<option value="Scales">Scale</option>
+						<option value="Chords">Chord</option>
+					</select> 
+				</div>
+				
+				<div class="form-group">
+					<label for="scName">Which scale or chord are you looking for?</label>
+					<script type="text/javascript" language="JavaScript">
+						document.write('<select class="form-control" name="scName" id="scName"><option value="">Options...</option></select>')
+					</script>
+					<noscript>
+						<select class="form-control" id="scName" name="scName">
+							<option value=""></option>
+						</select> 
+					</noscript>
+				</div>
+				
+				
+				<button type="submit" style="background: #999999">&amp;nbsp&amp;nbspCompute!&amp;nbsp&amp;nbsp</button>
+				
+			</form>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<div id="itemsList">
+				</div>
+			</div>
+		</div>
+		
+		<!-- Synth Keyboard - Credit: Keith William Horwood -->
+		<div class="keyboard-options" id="keyboard-options">
+			Synthesiser Sound
+			<select id="sound">
+				<option value="0" selected="">Piano</option>
+				<option value="1">Organ</option>
+				<option value="2">Acoustic Guitar</option>
+				<option value="3">Synth Wave</option>
+			</select>
+			<div id="keyboard" class="keyboard-holder"></div>
+			<div class="keyboard-options">
+				Range [C<span id="OCTAVE_LOWER">3</span>-B<span id="OCTAVE_UPPER">4</span>]
+				<input type="button" id="-_OCTAVE" value="-" />
+				<input type="button" id="+_OCTAVE" value="+" /><br />
+				<i>Synthesiser credit: Keith William Horwood</i>
+			</div>
+			<script type="text/javascript">
+				var a = new AudioSynthView();
+				a.draw();
+			</script>
+		</div>
+		<!--End synth keyboard-->
+				
+	</div>
+	
+	
+	
+	<!--Check if storage available-->
+	<script>
+		function storageAvailable(type) {
+			var storage;
+			try {
+				storage = window[type];
+				var x = '__storage_test__';
+				storage.setItem(x, x);
+				storage.removeItem(x);
+				return true;
+			}
+			catch(e) {
+				return e instanceof DOMException && (
+					// everything except Firefox
+					e.code === 22 ||
+					// Firefox
+					e.code === 1014 ||
+					// test name field too, because code might not be present
+					// everything except Firefox
+					e.name === 'QuotaExceededError' ||
+					// Firefox
+					e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+				// acknowledge QuotaExceededError only if there's something already stored
+				(storage && storage.length !== 0);
+			}
+		}
+		if (!storageAvailable('sessionStorage')) {
+			// Inform visitor that storage isn't available
+			window.alert("Storage is disabled in your browser. Please ensure 'sessionStorage' is enabled.");
+		}
+	</script>
+	<!--End sanity check-->
+	
+	
+	<!-- Device check -->
+	<script>
+		// Check whether to show or hide keyboard according to device type
+		// this is a temporary solution to the malfunction of synth keyboard on mobile devices(as a result of GitHub pages hosting)
+		var synthDiv = document.getElementById("keyboard-options");
+		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+			synthDiv.style.display = 'none';
+			var mobileAlert = document.getElementById("alertBox");
+			mobileAlert.innerHTML = "";
+			mobileAlert.innerHTML += '<div class="alert">' +
+			'<span class="closebtn" onclick="this.parentElement.style.display='+ "'none'" + ';">&times;</span>' +
+			"<strong>Attention!</strong> Synthesiser playback isn't available on mobile devices. Gain full access to this app with a computer." +
+			'</div><br>';
+			
+		}else{
+			synthDiv.style.display = 'block';
+		}
+	</script>
+	<!--end device check-->
+	
+	
+	
+	<!-- Begin  dynamic UI js -->
+	<script onload="brython()">
+		
+		const C_enharmonics = ['B#',  'C',  'Dbb', 'B##', 'C#', 'Db'];
+		
+		
+		function fetchItems() {
+			var items = JSON.parse(sessionStorage.getItem('items'));
+			var itemsList = document.getElementById('itemsList');
+			
+			itemsList.innerHTML = '';
+			
+			for (var i = 0; i < items.length; i++) {
+				var ID = items[i].id;
+				var key = items[i].Key;
+				var keyLetter = key.slice(0,1);
+				var keyAccidental = key.slice(1);
+				var soc = items[i].scaleOrChord;
+				var scn = items[i].scName;
+				var res = items[i].result;
+				var rootNote = res[0];
+				var noteList = res.split(' ').filter(String)
+				
+				
+				
+				// Temporarily hide elements on mobile devices
+				var synthDiv = document.getElementById("keyboard-options");
+				if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+					itemsList.innerHTML +=   '<div class="well" style="border-radius: 15px; border-color: rgb(36, 46, 43);">'+
+					
+					'<br><h5>' + keyLetter + '<sup>' + keyAccidental.replace('bb', '\1d12b').replace('##', '\1d12a').replace('b', '\u266d').replace('#', '\u266f') + '</sup>' + ' ' +'<b class="lowercase">'+ scn + ' ' + soc.slice(0,-1) + '</b>' + ' includes the following notes:' + '<br></h5>'+
+					'<h3>'+ res +'</h3>'+ 
+					'<div id='+ ID +'></div>' + // VexFlow notation
+					//'<a href="#" class=""btn btn-primary"" onclick="deleteItem(\''+ID+'\')">Delete</a>'+
+					'<button type="submit" style="background: #ff6f69" onclick="deleteItem(\''+ID+'\')">Delete</button>' +
+					'</div>';
+					synthDiv.style.display = 'none';
+				}else{
+					itemsList.innerHTML +=   '<div class="well">'+
+					//'<p><span class="label label-info">' + soc.slice(0,-1) + '</span><br></p>'+
+					'<br><h5>' + keyLetter + '<sup>' + keyAccidental.replace('bb', '\1d12b').replace('##', '\1d12a').replace('b', '\u266d').replace('#', '\u266f') + '</sup>' + ' ' +'<b class="lowercase">'+ scn + ' ' + soc.slice(0,-1) + '</b>' + ' includes the following notes:' + '<br></h5>'+
+					'<h3>'+ res +'</h3>'+ 
+					'<div id='+ ID +'></div>' + // VexFlow notation
+					//					'<br><a href="#" class=""btn btn-primary"" onclick="play(\''+ID+'\')">Play</a> '+
+					//					'<a href="#" class=""btn btn-primary"" onclick="deleteItem(\''+ID+'\')">Delete</a>'+
+					'<button type="submit" style="background: #88d8b0" onclick="play(\''+ID+'\')">Play</button>'+ '&nbsp&nbsp' +
+					'<button type="submit" style="background: #ff6f69" onclick="deleteItem(\''+ID+'\')">Delete</button>'+
+					'</div>';
+					synthDiv.style.display = 'block';
+				}
+				
+				
+				
+				
+				function showScore () {
+					VF = Vex.Flow;
+					// Create an SVG renderer and attach it to the DIV element named "boo".
+					var div = document.getElementById(ID)
+					
+					var renderer = new VF.Renderer(div, 3);
+					// Size our SVG:
+					renderer.resize(400, 130);
+					// And get a drawing context:
+					var context = renderer.getContext();
+					// Create a stave at position 10, 40 of width X00 on the canvas.
+					var stave = new VF.Stave(10, 10, 300);
+					// Add a clef and time signature.
+					stave.addClef("treble").addTimeSignature("4/4");
+					// Connect it to the rendering context and draw!
+					stave.setContext(context).draw();
+					
+					var notes = [];
+					if (soc=="Chords") { // for chords
+						var chord = [];
+						var accidentals = []
+						for (var i = 0; i < noteList.length; i++) {
+							var note = noteList[i].replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
+							chord.push(note.toLowerCase() + "/" + 4);
+							// Store accidentals
+							if (note.length==1) {
+								accidentals.push(""); // store positional information only if no accidentals
+							} else {
+								accidentals.push(new VF.Accidental(note.slice(1)));
+							}
+						}
+						note_placeholder = new VF.StaveNote({clef: "treble", keys: chord, duration: "1" });
+						for (var i = 0; i < accidentals.length; i++) {
+							if (accidentals[i]!="") {
+								note_placeholder.addAccidental(i, accidentals[i])
+							}
+						}
+						notes.push(note_placeholder);
+						// Create a voice in 4/4 and add the notes from above
+						var voice = new VF.Voice({num_beats: 1,  beat_value: 1});
+					} 
+					else if (soc=="Scales") { // for scales
+						var oct = 4
+						for (var i = 0; i < noteList.length; i++) {
+							var note = noteList[i].replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
+							if (rootNote!="C" && rootNote!="C#" && rootNote!="Cb") {
+								if (C_enharmonics.includes(note)) {
+									oct += 1;
+								}
+							}
+							
+							if (note.length==1) {
+								notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }));
+							} else {
+								notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }).addAccidental(0, new VF.Accidental(note.slice(1))));
+							}
+							
+						}
+						// Create a voice in 4/4 and add the notes from above
+						var voice = new VF.Voice({num_beats: noteList.length,  beat_value: 4});
+					}
+					
+					
+					voice.addTickables(notes);
+					// Format and justify the notes (pixels).
+					var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 250);
+					// Render voice
+					voice.draw(context, stave);
+					
+				}
+				
+				showScore();
+				
+			}
+		}
+		
+		document.getElementById('inputForm').addEventListener('submit', saveItem);
+		
+		
+		function saveItem(e) {
+			if (document.getElementById('scName').value=='') {
+				return
+			}
+			
+			var itemId = chance.guid();
+			var itemName = document.getElementById('scName').value;
+			var itemKey = document.getElementById('keyInput').value;
+			var itemScaleOrChord = document.getElementById('scaleOrChord').value;
+			var itemResult = window.Read(itemScaleOrChord, itemKey, itemName);
+			
+			
+			var item = {
+				id: itemId,
+				scName: itemName,
+				Key: itemKey,
+				scaleOrChord: itemScaleOrChord,
+				result: itemResult,
+			}
+			
+			if (sessionStorage.getItem('items') === null) {
+				var items = [];
+				items.push(item);
+				sessionStorage.setItem('items', JSON.stringify(items));
+			} else {
+				var items = JSON.parse(sessionStorage.getItem('items'));
+				items.push(item);
+				sessionStorage.setItem('items', JSON.stringify(items));
+			}
+			
+			document.getElementById('inputForm').reset();
+			document.getElementById("scName").options[0]=new Option("Options...","");
+			
+			fetchItems();
+			
+			e.preventDefault(); 
+		}
+		
+		
+		function deleteItem (id) {
+			var items = JSON.parse(sessionStorage.getItem('items'));
+			
+			for(var i = 0; i < items.length; i++) {
+				if (items[i].id == id) {
+					items.splice(i, 1);
+				}
+			}
+			sessionStorage.setItem('items', JSON.stringify(items));
+			fetchItems();
+		}
+		
+		
+		var octave = 3;
+		function play (id) {
+			
+			Synth instanceof AudioSynth; // true
+			//      var piano = Synth.createInstrument('piano');
+			
+			var items = JSON.parse(sessionStorage.getItem('items'));
+			
+			for(var i = 0; i < items.length; i++) {
+				if (items[i].id == id) {
+					
+					var noteString = items[i].result;
+					var simplifiedNotes = window.simplifyEnharmonics(noteString); // simplify enharmonics for audiosynth playback
+					var type = items[i].scaleOrChord;
+					var noteArray = simplifiedNotes.split(' ').filter(String);
+					var rootNote = noteArray[0];
+					
+					var sythnTypeSelection = document.getElementById('sound')
+					var synthType = sythnTypeSelection.options[sythnTypeSelection.selectedIndex].value;
+					
+					if (type=="Chords") {
+						var time = 0;
+					} 
+					else if (type=="Scales") {
+						var time = 900;
+					}
+					
+					var j = 0;    
+					function playScale() {         //  create a loop function
+						setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+							var rawNote = noteArray[j] //.replace("\u266d",'b').replace('\u266f','#').replace('\1d12b','bb').replace('\1d12a','##');
+							if (rootNote=="C" || rootNote=="C#" || rootNote=="Cb") {
+								octave+=0;
+							}
+							else {
+								if (C_enharmonics.includes(rawNote)) {
+									octave += 1;
+								}
+							}
+							Synth.play(synthType, rawNote, octave, 2);//piano.play(rawNote, octave, 2);
+							
+							j++;                    //  increment the counter
+							if (j < noteString.length) {           //  if the counter < 10, call the loop function
+								playScale();           //  ..  again which will trigger another 
+							}                       //  ..  setTimeout()
+						}, time)
+						
+					}
+					playScale();                   //  start the loop
+					octave = 3; // reset octave after playback
+				}
+			}
+			sessionStorage.setItem('items', JSON.stringify(items));
+			fetchItems();
+			
+		}
+		
+		
+		
+		//		//    Helper function - delay
+		//		function syncDelay(milliseconds){
+		//			var start = new Date().getTime();
+		//			var end=0;
+		//			while( (end-start) < milliseconds){
+		//				end = new Date().getTime();
+		//			}
+		//		}
+		
+		
+	</script>
+	
+	
+	<!-- Dynamic Dropdown Menu -->
+	<script language="javascript" type="text/javascript">
+		function dynamicdropdown(listindex)
+		{
+			switch (listindex)
+			{
+				case "Scales" :
+					document.getElementById("scName").options[0]=new Option("Options","");
+					document.getElementById("scName").options[1]=new Option("Major","Major");
+					document.getElementById("scName").options[2]=new Option("Minor","Minor");
+					document.getElementById("scName").options[3]=new Option("Melodic Minor","Melodic Minor");
+					document.getElementById("scName").options[4]=new Option("Harmonic Minor","Harmonic Minor");
+					document.getElementById("scName").options[5]=new Option("Major Blues","Major Blues");
+					document.getElementById("scName").options[6]=new Option("Minor Blues","Minor Blues");
+					document.getElementById("scName").options[7]=new Option("Pentatonic Major","Pentatonic Major");
+					document.getElementById("scName").options[8]=new Option("Pentatonic Minor","Pentatonic Minor");
+					document.getElementById("scName").options[9]=new Option("Pentatonic Blues","Pentatonic Blues");
+					document.getElementById("scName").options[10]=new Option("Ionian","Ionian");
+					document.getElementById("scName").options[11]=new Option("Dorian","Dorian");
+					document.getElementById("scName").options[12]=new Option("Phrygian","Phrygian");
+					document.getElementById("scName").options[13]=new Option("Lydian","Lydian");
+					document.getElementById("scName").options[14]=new Option("Mixolydian","Mixolydian");
+					document.getElementById("scName").options[15]=new Option("Aeolian","Aeolian");
+					document.getElementById("scName").options[15]=new Option("Locrian","Locrian");
+					break;
+				
+				case "Chords" :
+					document.getElementById("scName").options[0]=new Option("Options","");
+					document.getElementById("scName").options[1]=new Option("Major","Major");
+					document.getElementById("scName").options[2]=new Option("Major 6","Major 6");
+					document.getElementById("scName").options[3]=new Option("Major 6/9","Major 6/9");
+					document.getElementById("scName").options[4]=new Option("Major 7","Major 7");
+					document.getElementById("scName").options[5]=new Option("Major 9","Major 9");
+					document.getElementById("scName").options[6]=new Option("Major 13","Major 13");
+					document.getElementById("scName").options[7]=new Option("Major 7#11","Major 7#11");
+					
+					document.getElementById("scName").options[8]=new Option("Minor","Minor");
+					document.getElementById("scName").options[9]=new Option("Minor 6","Minor 6");
+					document.getElementById("scName").options[10]=new Option("Minor 6/9","Minor 6/9");
+					document.getElementById("scName").options[11]=new Option("Minor 7","Minor 7");
+					document.getElementById("scName").options[12]=new Option("Minor 9","Minor 9");
+					document.getElementById("scName").options[13]=new Option("Minor 11","Minor 11");
+					document.getElementById("scName").options[14]=new Option("Minor 7b5","Minor 7b5");
+					
+					document.getElementById("scName").options[15]=new Option("Dominant 7","Dominant 7");
+					document.getElementById("scName").options[16]=new Option("Dominant 9","Dominant 9");
+					document.getElementById("scName").options[17]=new Option("Dominant 11","Dominant 11");
+					document.getElementById("scName").options[18]=new Option("Dominant 13","Dominant 13");
+					document.getElementById("scName").options[19]=new Option("Dominant 7#11","Dominant 7#11");
+					
+					document.getElementById("scName").options[20]=new Option("Diminished","Diminished");
+					document.getElementById("scName").options[21]=new Option("Diminished 7","Diminished 7");
+					document.getElementById("scName").options[22]=new Option("Diminished 7 Half","Diminished 7 Half");
+					document.getElementById("scName").options[23]=new Option("Augmented","Augmented");
+					
+					document.getElementById("scName").options[24]=new Option("sus2","sus2");
+					document.getElementById("scName").options[25]=new Option("sus4","sus4");
+					document.getElementById("scName").options[26]=new Option("7sus2","7sus2");
+					document.getElementById("scName").options[27]=new Option("7sus4","7sus4");
+					break;
+				
+				case "" :
+					document.getElementById("scName").options[0]=new Option("Options...","");
+			}
+			return true;
+		}
+	</script>
+	<!-- End Dynamic Dropdown-->
+	
+</body>
+:ET
