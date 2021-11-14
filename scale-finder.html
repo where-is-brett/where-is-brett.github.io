@@ -513,9 +513,10 @@ redirect_from:
 						for (var i = 0; i < noteList.length; i++) {
 							var note = noteList[i].replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
 							if (rootNote!="C" && rootNote!="C#" && rootNote!="Cb") {
-								if (C_enharmonics.includes(note)) {
-									oct += 1;
+								oct += 0;
 								}
+							else if (C_enharmonics.includes(note)) {
+										oct += 1;
 							}
 							
 							if (note.length==1) {
@@ -523,7 +524,7 @@ redirect_from:
 							} else {
 								notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }).addAccidental(0, new VF.Accidental(note.slice(1))));
 							}
-							
+						oct = 4;	
 						}
 						// Create a voice in 4/4 and add the notes from above
 						var voice = new VF.Voice({num_beats: noteList.length,  beat_value: 4});
