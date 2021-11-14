@@ -417,9 +417,9 @@ redirect_from:
 	<script onload="brython()">
 		
 		const C_enharmonics = ['B#', 'C',  'Dbb', 'B##', 'C#', 'Db']; 
-		const enharmonics = [
+		const modifiedEnharmonics = [
 			
-			['B#',  'C',  'Dbb'],
+			['Cb',  'C',  'Dbb'],
 			['B##', 'C#', 'Db'],
 			['C##', 'D',  'Ebb'],
 			['D#',  'Eb', 'Fbb'],
@@ -430,7 +430,7 @@ redirect_from:
 			['G#',  'Ab'],
 			['G##', 'A',  'Bbb'],
 			['A#',  'Bb', 'Cbb'],
-			['A##', 'B',  'Cb'],
+			['A##', 'B',  'B#'],
 			
 		]
 		
@@ -529,13 +529,15 @@ redirect_from:
 						var oct = 4;
 						for (var i = 0; i < noteList.length; i++) {
 							var note = noteList[i].replace("\1d12b", 'bb').replace('\1d12a', '##').replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#');
-							for (var j = 0; j < enharmonics.length; j++) {
-								if (enharmonics[j].includes(note)){
+							for (var j = 0; j < modifiedEnharmonics.length; j++) {
+								if (modifiedEnharmonics[j].includes(note)){
 									if (i==0){
 										var startingScore = j;
-									}else {
+									}
+									else {
 										var currentScore = j;
 										if (currentScore >= startingScore || note=='B#') {
+											console.log(currentScore);
 											oct = 4;
 										}else {
 											oct = 5;
