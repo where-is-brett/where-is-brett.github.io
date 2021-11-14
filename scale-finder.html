@@ -513,7 +513,7 @@ redirect_from:
 						var incre = 0;
 						for (var i = 0; i < noteList.length; i++) {
 							var note = noteList[i].replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
-							if (rootNote!="C" && rootNote!="C#" && rootNote!="Cb") {
+							if (C_enharmonics.includes(rootNote)) {
 								if (C_enharmonics.includes(note) && note!='B#') {
 										oct += 1;
 								}
