@@ -662,8 +662,8 @@ redirect_from:
 					var playList = [];
 					for (var k = 0; k < noteArray.length; k++) {
 						var note = noteArray[k];
-						for (var q = 0; q < audiosynth_notes.length; q++) {
-							if (audiosynth_notes[q].includes(note)){
+						for (var q = 0; q < modifiedEnharmonics.length; q++) {
+							if (modifiedEnharmonics[q].includes(note)){
 								if (k==0){
 									var startingScore = q;
 										var oct = octave;
