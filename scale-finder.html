@@ -417,7 +417,22 @@ redirect_from:
 	<script onload="brython()">
 		
 		const C_enharmonics = ['B#', 'C',  'Dbb', 'B##', 'C#', 'Db']; 
-		
+		const enharmonics = [
+			
+			['B#',  'C',  'Dbb'],
+			['B##', 'C#', 'Db'],
+			['C##', 'D',  'Ebb'],
+			['D#',  'Eb', 'Fbb'],
+			['D##', 'E',  'Fb'],
+			['E#',  'F',  'Gbb'],
+			['E##', 'F#', 'Gb'],
+			['F##', 'G',  'Abb'],
+			['G#',  'Ab'],
+			['G##', 'A',  'Bbb'],
+			['A#',  'Bb', 'Cbb'],
+			['A##', 'B',  'Cb'],
+			
+		]
 		
 		function fetchItems() {
 			var items = JSON.parse(sessionStorage.getItem('items'));
@@ -512,12 +527,20 @@ redirect_from:
 					else if (soc=="Scales") { // for scales
 						
 						var oct = 4;
-																		
 						for (var i = 0; i < noteList.length; i++) {
-							var note = noteList[i].replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#').replace('\1d12b', 'bb').replace('\1d12a', '##');
-							if (!C_enharmonics.includes(rootNote)) {
-								if (C_enharmonics.includes(note) && !['B#', 'Bb'].includes(note)) {
-										oct = 5;
+							var note = noteList[i].replace("\1d12b", 'bb').replace('\1d12a', '##').replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#').replace('\u266f','#');
+							for (var j = 0; j < enharmonics.length; j++) {
+								if (enharmonics[j].includes(note)){
+									if (i==0){
+										var startingScore = j;
+									}else {
+										var currentScore = j;
+										if (currentScore >= startingScore || note=='B#') {
+											oct = 4;
+										}else {
+											oct = 5;
+										}
+									}
 								}
 							}
 
@@ -526,16 +549,7 @@ redirect_from:
 							} else {
 								notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }).addAccidental(0, new VF.Accidental(note.slice(1))));
 							}
-								
-							if (!['B#', 'Bb'].includes(rootNote) && ['B#', 'Bb'].includes(note)) {
-								oct = 5;
-							}
-							else if (['B#', 'Bb', 'B'].includes(rootNote) && ['B#', 'Bb', 'B'].includes(note)) {
-								oct = 3;
-								if (note=='B') {
-									oct = 5;
-								}
-							}
+
 							
 						}
 						
@@ -556,6 +570,8 @@ redirect_from:
 				
 			}
 		}
+		
+		
 		
 		document.getElementById('inputForm').addEventListener('submit', saveItem);
 		
