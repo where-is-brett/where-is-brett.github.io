@@ -10,7 +10,7 @@ You probably know me as a physicist if you have worked alongside me or read my C
 
 <br/>
 ## what's new?
-Scales and Chords Calculator - Many of us struggle to remember how to derive a scale or a chord given a key signature. I am no different. So I created [this app]({{site.url}}/app/find-scale) to display chords and scales all in one place!
+Scales and Chords Calculator - Many of us struggle to remember how to derive a scale or a chord given a key signature. I am no different. So I created [this app]({{site.url}}/app/music-genius) to display chords and scales all in one place!
 
 
 <br/>
