@@ -539,8 +539,7 @@ redirect_from:
 									}
 									else {
 										var currentScore = j;
-										if (currentScore >= startingScore || note=='B#') {
-											console.log(currentScore);
+										if (currentScore >= startingScore) {
 											oct = 4;
 										}else {
 											oct = 5;
@@ -548,13 +547,18 @@ redirect_from:
 									}
 								}
 							}
-
+							
+							
+							if (noteList[0].replace('\u266d', 'b')=='Cb') {
+								oct+=1; // If beginning with Cb <=> B, make sure the octave begins from C5
+							}
+							
 							if (note.length==1) {
 								notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }));
 							} else {
 								notes.push(new VF.StaveNote({clef: "treble", keys: [note.toLowerCase() + "/" + oct], duration: "q" }).addAccidental(0, new VF.Accidental(note.slice(1))));
 							}
-
+							
 							
 						}
 						
@@ -645,9 +649,11 @@ redirect_from:
 				if (items[i].id == id) {
 					
 					var noteString = items[i].result;
+					var originalNoteArray = noteString.split(' ').filter(String);
 					var simplifiedNotes = window.simplifyEnharmonics(noteString); // simplify enharmonics for audiosynth playback
 					var type = items[i].scaleOrChord;
 					var noteArray = simplifiedNotes.split(' ').filter(String);
+					
 					
 					var sythnTypeSelection = document.getElementById('sound')
 					var synthType = sythnTypeSelection.options[sythnTypeSelection.selectedIndex].value;
@@ -666,24 +672,23 @@ redirect_from:
 							if (modifiedEnharmonics[q].includes(note)){
 								if (k==0){
 									var startingScore = q;
-										var oct = octave;
+									var oct = octave;
 								}
 								else {
 									var currentScore = q;
 									if (currentScore >= startingScore) {
-											var oct = octave;
+										var oct = octave;
 									}else {
 										var oct = octave+1;
 									}
 								}
 							}
 						}
-						if (note=='B#') {
-							octave+=1;
+						if (originalNoteArray[0].replace("\1d12b", 'bb').replace('\1d12a', '##').replace('\u266d', 'b').replace('\u266d', 'b').replace('\u266f','#')=='B#') {
+							oct = octave+1;
 						}
 						playList.push([note, oct]);
 					}
-					console.log(playList);
 					
 					var j = 0;    
 					function playScale() {         //  create a loop function
