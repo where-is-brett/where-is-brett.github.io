@@ -5,7 +5,7 @@
     "args": {
       "numSteps": 32,
       "minPitch": 21,
-      "maxPitch": 60
+      "maxPitch": 50
     }
   }
 }
