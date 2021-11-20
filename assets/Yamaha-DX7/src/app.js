@@ -1,3 +1,5 @@
+import { Midi } from '@tonejs/midi';
+
 var _ = require('lodash');
 var Angular = require('angular');
 var ngStorage = require('ngstorage');
@@ -301,21 +303,25 @@ app.directive('slider', function() {
 		link: link
 	};
 });
-
+	
+import * as Tone from 'tone'
+// MIDI PLAY SECTION - TWEAK THIS TO PLAY BASSLINE AI OUTPUT
 app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 	// MIDI stuff
 	var self = this;
-	this.midiFileIndex = 0;
-	this.midiFiles = [
-		"assets/Yamaha-DX7/midi/rachmaninoff-op39-no6.mid",
-		"assets/Yamaha-DX7/midi/minute_waltz.mid",
-		"assets/Yamaha-DX7/midi/bluebossa.mid",
-		"assets/Yamaha-DX7/midi/cantaloup.mid",
-		"assets/Yamaha-DX7/midi/chameleon.mid",
-		"assets/Yamaha-DX7/midi/tunisia.mid",
-		"assets/Yamaha-DX7/midi/sowhat.mid",
-		"assets/Yamaha-DX7/midi/got-a-match.mid"
-	];
+	
+//	this.midiFileIndex = 0;
+//	this.midiFiles = [
+//		"assets/Yamaha-DX7/midi/rachmaninoff-op39-no6.mid",
+//		"assets/Yamaha-DX7/midi/minute_waltz.mid",
+//		"assets/Yamaha-DX7/midi/bluebossa.mid",
+//		"assets/Yamaha-DX7/midi/cantaloup.mid",
+//		"assets/Yamaha-DX7/midi/chameleon.mid",
+//		"assets/Yamaha-DX7/midi/tunisia.mid",
+//		"assets/Yamaha-DX7/midi/sowhat.mid",
+//		"assets/Yamaha-DX7/midi/got-a-match.mid"
+//	];
+	
 	this.midiPlayer = new MIDIPlayer({
 		output: {
 			// Loopback MIDI to input handler.
@@ -325,16 +331,47 @@ app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 			}
 		}
 	});
+	
 
-	this.onMidiPlay = function() {
-		$http.get(this.midiFiles[this.midiFileIndex], {responseType: "arraybuffer"})
-			.success(function(data) {
-				console.log("Loaded %d bytes.", data.byteLength);
-				var midiFile = new MIDIFile(data);
-				self.midiPlayer.load(midiFile);
-				self.midiPlayer.play(function() { console.log("MIDI file playback ended."); });
-			});
-	};
+//	async function getMidiArray(){
+//		let samples = await getSamples();
+//		samples.notes.forEach(n => n.velocity = 100);
+//		return core.sequenceProtoToMidi(samples[0]);
+//	}
+	
+	this.onMidiPlay = async function(){
+		let samples = await getSamples();
+		samples[0].notes.forEach(n => n.velocity = 100);
+		const data = core.sequenceProtoToMidi(samples[0]); // midi as UINT8Array
+		console.log(data);
+		const buffer = new Uint8Array(data).buffer;
+		
+		console.log(buffer);
+		//		var buffer = new ArrayBuffer(data.length);
+		//		data.map(function(value, i){buffer[i] = value});
+		//		
+		
+//		console.log("Loaded %d bytes.", buffer.byteLength);
+		var midiFile = new MIDIFile(buffer);
+		self.midiPlayer.load(midiFile);
+		self.midiPlayer.play(function() { console.log("MIDI file playback ended."); });
+	}
+	
+	
+//	this.onMidiPlay = function() {
+//		$http.get(this.midiFiles[this.midiFileIndex], {responseType: "arraybuffer"})
+//		.success(function(data) {
+//			console.log("Loaded %d bytes.", data.byteLength);
+//			console.log(data);
+//			console.log(typeof data);
+//			var midiFile = new MIDIFile(data); // data is an Arraybuffer
+//			console.log(midiFile);
+//			console.log(typeof midiFile);
+//			self.midiPlayer.load(midiFile);
+//			self.midiPlayer.play(function() { console.log("MIDI file playback ended."); });
+//		});
+//	};
+//	
 
 	this.onMidiStop = function() {
 		this.midiPlayer.stop();
@@ -598,3 +635,4 @@ app.controller('PresetCtrl', ['$scope', '$localStorage', '$http', function ($sco
 	unlockAudioContext(audioContext);
 
 }]);
+	
