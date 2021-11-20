@@ -335,7 +335,7 @@ app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 
 	this.getMidiArray = async function(){
 		let samples = await getSamples();
-		samples[0].notes.forEach(n => n.velocity = 100); // assign velocity for midi notes
+		samples[0].notes.forEach(n => n.velocity = 110); // assign velocity for midi notes
 		const data = core.sequenceProtoToMidi(samples[0]); // midi as UINT8Array
 		const buffer = new Uint8Array(data).buffer; // convert to ArrayBuffer
 		console.log("Loaded %d bytes.", buffer.byteLength);
