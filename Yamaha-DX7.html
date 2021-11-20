@@ -10,6 +10,33 @@
 	<script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/core.js"></script>
 	<!--Model we want to use -->
 	<script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/music_vae.js"></script>
+	<script>
+		var buttons = document.getElementById("waitForModel");
+		
+		
+		const mvae = new music_vae.MusicVAE('assets/musicvae/weights'); //construct musicVAE object
+		
+		function initialise(){
+			return mvae.initialize();
+		}
+		
+		async function waitForModel() {
+			if (!mvae.initialized) { // initialise model - first time only
+				let VOID = await initialise();
+				mvae.initialized = true;
+			}
+		}
+		waitForModel();
+		
+		function getSamples(){
+			return mvae.sample(1);
+		}
+		
+		function playBeats(){
+			var audio = new Audio("files/music/beat_2.mp3");
+			audio.play();
+		}
+	</script>
 </head>
 <body ng-controller="MidiCtrl as midiCtrl">
 		<div class="dx7-container" ng-controller="PresetCtrl as presetCtrl">
@@ -180,37 +207,7 @@
 		</div>
 	<script src="assets/Yamaha-DX7/bundle.js"></script>
 	
-	<script>
-		var buttons = document.getElementById("waitForModel");
-
-		
-		const mvae = new music_vae.MusicVAE('assets/musicvae/weights'); //construct musicVAE object
-		
-		function initialise(){
-			return mvae.initialize();
-		}
-		
-		async function waitForModel() {
-			if (!mvae.initialized) { // initialise model - first time only
-				let VOID = await initialise();
-				mvae.initialized = true;
-			}
-		}
-		waitForModel();
-		
-		function getSamples(){
-			return mvae.sample(1);
-		}
-		
-		function playBeats(){
-			var audio = new Audio("files/music/beat_2.mp3");
-			audio.play();
-		}
-		
-
-		
-		
-	</script>
+	
 </body>
 </html>
 
