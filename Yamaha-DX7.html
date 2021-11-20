@@ -151,10 +151,10 @@
 <!--					ng-model="midiCtrl.midiFileIndex"-->
 <!--					ng-options="midiCtrl.midiFiles.indexOf(file) as file.slice(23) for file in midiCtrl.midiFiles"></select>-->
 				
-				<button class="dx7-button teal" onclick="initialise()">Load AI</button>
-				<button class="dx7-button teal" ng-click="midiCtrl.getMidiArray()">Generate</button>
-				<button class="dx7-button teal" ng-click="midiCtrl.onMidiPlay()">Play</button>
-				<button class="dx7-button teal" ng-click="midiCtrl.onMidiStop()">Stop</button>
+<!--			<button id="" class="dx7-button teal" onclick="initialise()">Load AI</button>-->
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.getMidiArray()">Generate</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiPlay()">Play</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiStop()">Stop</button>
 
 				<!-- TODO: Sync and Pitch EG
 				<div class="param">
@@ -181,16 +181,28 @@
 	<script src="assets/Yamaha-DX7/bundle.js"></script>
 	
 	<script>
-		const mvae = new music_vae.MusicVAE('assets/musicvae/weights');
+		var buttons = document.getElementById("waitForModel");
+
+		
+		const mvae = new music_vae.MusicVAE('assets/musicvae/weights'); //construct musicVAE object
 		
 		function initialise(){
 			return mvae.initialize();
 		}
-		async function getSamples(){
+//		initialise(); //initialise model
+		
+		async function waitForModel() {
 			if (!mvae.initialized) { // initialise model - first time only
 				let VOID = await initialise();
 				mvae.initialized = true;
 			}
+		}
+		waitForModel();
+
+		
+		
+		
+		function getSamples(){
 			return mvae.sample(1);
 		}
 		
