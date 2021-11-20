@@ -333,27 +333,20 @@ app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 	});
 	
 
-//	async function getMidiArray(){
-//		let samples = await getSamples();
-//		samples.notes.forEach(n => n.velocity = 100);
-//		return core.sequenceProtoToMidi(samples[0]);
-//	}
-	
-	this.onMidiPlay = async function(){
+	this.getMidiArray = async function(){
 		let samples = await getSamples();
 		samples[0].notes.forEach(n => n.velocity = 100);
 		const data = core.sequenceProtoToMidi(samples[0]); // midi as UINT8Array
-		console.log(data);
+		//		console.log(data);
 		const buffer = new Uint8Array(data).buffer;
+		//		console.log(buffer);
 		
-		console.log(buffer);
-		//		var buffer = new ArrayBuffer(data.length);
-		//		data.map(function(value, i){buffer[i] = value});
-		//		
-		
-//		console.log("Loaded %d bytes.", buffer.byteLength);
+		console.log("Loaded %d bytes.", buffer.byteLength);
 		var midiFile = new MIDIFile(buffer);
 		self.midiPlayer.load(midiFile);
+	}
+	
+	this.onMidiPlay = function(){
 		self.midiPlayer.play(function() { console.log("MIDI file playback ended."); });
 	}
 	
