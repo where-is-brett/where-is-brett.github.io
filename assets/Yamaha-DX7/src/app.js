@@ -359,7 +359,7 @@ app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 	}
 	
 	this.onMidiPlay = function(){
-		playBeats();
+//		playBeats();
 		self.midiPlayer.play(function() { console.log("MIDI file playback ended."); });
 	}
 	
