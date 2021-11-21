@@ -336,11 +336,26 @@ app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 	this.getMidiArray = async function(){
 		let samples = await getSamples();
 		samples[0].notes.forEach(n => n.velocity = 110); // assign velocity for midi notes
-		const data = core.sequenceProtoToMidi(samples[0]); // midi as UINT8Array
-		const buffer = new Uint8Array(data).buffer; // convert to ArrayBuffer
+		const midiArray = core.sequenceProtoToMidi(samples[0]); // midi as UINT8Array
+		const buffer = new Uint8Array(midiArray).buffer; // convert to ArrayBuffer
 		console.log("Loaded %d bytes.", buffer.byteLength);
 		var midiFile = new MIDIFile(buffer);
 		self.midiPlayer.load(midiFile);
+		
+		var blob = new Blob([midiArray], {type: "audio/midi"});
+		return blob;
+	}
+	
+	var counter = 1;
+	this.downloadMidiFile = async function(){
+		
+		let blob = await self.getMidiArray();
+		var link = document.createElement('a');
+		link.href = window.URL.createObjectURL(blob);
+		var fileName = 'bassline'+ String(counter) +'.mid';
+		link.download = fileName;
+		link.click();
+		counter++;
 	}
 	
 	this.onMidiPlay = function(){
