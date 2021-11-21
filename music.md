@@ -1,12 +1,12 @@
 ---
 title: Music
-permlink: /music/
+permlink: /music
 feature_text:
 feature_image: "/files/images/amps.jpg"
 aside: true
 excerpt: "This page contains all my creative work."
 redirect_from:
-  - /music
+  - /music/
 ---
 
 <br/>
@@ -18,6 +18,9 @@ While I have not officially published any track, you can listen to a collection 
 
 ## [Unreleased Heat]({{site.url}}/music/unreleased)
 A preview of my ongoing projects, where I explore sounds which reflect the underground minimal house scene. These tracks will be distributed on Bandcamp and Beatport, with some available via music streaming platforms. 
+
+## [Apps]({{site.url}}/music/apps)
+Here you can find a collection of web applications that I created to help explore music.
 
 <br/><br/>
 
