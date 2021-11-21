@@ -179,8 +179,8 @@
 <!--					ng-options="midiCtrl.midiFiles.indexOf(file) as file.slice(23) for file in midiCtrl.midiFiles"></select>-->
 				
 <!--			<button id="" class="dx7-button teal" onclick="initialise()">Load AI</button>-->
-				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.getMidiArray()">Generate</button>
-				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiPlay()">Play</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.getMidiArray()">New Pattern</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiPlay()" onclick="playBeats()">Play</button>
 				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiStop()">Stop</button>
 				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.downloadMidiFile()">Download</button>
 				
