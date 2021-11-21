@@ -360,6 +360,7 @@ app.controller('MidiCtrl', ['$scope', '$http', function($scope, $http) {
 	
 	this.onMidiPlay = function(){
 		self.midiPlayer.play(function() { console.log("MIDI file playback ended."); });
+		playBeats();
 	}
 	
 	
