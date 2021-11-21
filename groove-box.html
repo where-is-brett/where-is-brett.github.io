@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html ng-app="synthApp">
+<head>
+	<title>🎸 AI Bassist</title>
+	<!--First thing - Cookie Consent Script-->
+	<script src="https://cmp.osano.com/6olhfSecI0MQ3iqY/fba033ae-5243-41bf-8a4e-63f86a01fb23/osano.js"></script>
+	<!--Hide Cookie Widget-->
+	<style>
+		.osano-cm-widget {
+			background-image: url(http://www.brettyang.info/files/images/cookie-icon.png);
+			background-size: contain;
+			border-radius: 100%;
+			width: 27px;
+			height: 27px;
+			right: 1rem;
+			bottom: 0.7rem;
+			opacity: 0.9;
+			transition-property: opacity, visibility, transform;
+		}
+		.osano-cm-widget svg {
+			display: none;
+		}
+		.osano-cm-widget:focus,
+		.osano-cm-widget:hover {
+			opacity: 1;
+			transform: none;
+		}
+		.osano-cm-widget:active {
+			transform: translateY(1px);
+		}
+	</style>
+	<!-- End Cookie Consent -->
+	<!-- Google Analytics -->
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-0JSQ1K376R"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+		gtag('config', 'G-0JSQ1K376R');
+	</script>
+	<!-- End Google Analytics -->
+	<link rel="stylesheet" type="text/css" href="assets/Yamaha-DX7/synth.css">
+	<!-- tensorflow.js for the model -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tensorflow/1.2.8/tf.min.js"></script>
+	<!-- Core library, since we're going to use a player -->
+	<script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/core.js"></script>
+	<!--Model we want to use -->
+	<script src="https://cdn.jsdelivr.net/npm/@magenta/music@^1.0.0/es6/music_vae.js"></script>
+	<script>
+		const mvae = new music_vae.MusicVAE('assets/musicvae/weights'); //construct musicVAE object
+		
+		function initialise(){
+			return mvae.initialize();
+		}
+		
+		async function waitForModel() {
+			if (!mvae.initialized) { // initialise model - first time only
+				let VOID = await initialise();
+				mvae.initialized = true;
+			}
+		}
+		waitForModel();
+		
+		function getSamples(){
+			return mvae.sample(1);
+		}
+		
+		function playBeats(){
+			var audio = new Audio("files/music/beat_2.mp3");
+			audio.play();
+		}
+	</script>
+	<style>
+		/* The Modal (background) */
+		.modal {
+			display: block; /* Hidden by default */
+			position: fixed; /* Stay in place */
+			z-index: 1; /* Sit on top */
+			padding-top: 100px; /* Location of the box */
+			left: 0;
+			top: 0;
+			width: 100%; /* Full width */
+			height: 100%; /* Full height */
+			overflow: auto; /* Enable scroll if needed */
+			background-color: rgb(0,0,0); /* Fallback color */
+			background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+		}
+		/* Modal Content */
+		.modal-content {
+			color: #251F1F;
+			background-color: #f9f9f9;
+			margin: auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			font-family: Avenir;
+		}
+		/* The Close Button */
+		.close {
+			color: #aaaaaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+		.close:hover,
+		.close:focus {
+			color: #000;
+			text-decoration: none;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body ng-controller="MidiCtrl as midiCtrl">
+	
+	<!-- Modal Popup-->
+	<div id="myModal" class="modal">
+		<!-- Modal content -->
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h3>AI-Controlled Bass Line Composer</h3>
+			<p>Is there a role for AI in music composition? Music theory and performance can be practised, but composition embarks on a journey to find a combination of notes that pleases the human ears. It isn't clear why some melodies please the brain while others do not. So it may seem futile training an AI composer. While an AI cannot tell whether a melody is pleasing to the human brain, it can learn patterns really well. And there is, although complex, quite a lot of patterns in music. So what would happen if we teach an AI the music we like? This project explores AI-generated bass line melodies in the sub-genre of techno music.</p>
+			<h4>How to use:</h4>
+			<p>1. Allow up to 1 minute for essential modules to load.</p>
+			<p>2. Select a voice (preset) from the dropdown menu on the top.</p>
+			<p>3. Smack the 'New Pattern' button to generate a bass line, then hit 'Play' !</p>
+			<p>4. You may download the MIDI file if you like what you're hearing.</p>
+			<br><small><i>DX7 synthesiser credit: Matt Montag.</i></small>
+		</div>
+	</div>
+	<!---->
+	
+		<div class="dx7-container" ng-controller="PresetCtrl as presetCtrl">
+			<div class="dx7-top-panel">
+				<div class="dx7-logo"></div>
+				<div class="display">
+					<div class="lcd-text" ng-bind="presetCtrl.paramDisplayText"></div>
+					<div id="analysis" class="analysis" ng-click="midiCtrl.onVizClick()"></div>
+					<select ng-model="presetCtrl.selectedIndex"
+									ng-change="presetCtrl.onChange($event)"
+									ng-options="presetCtrl.presets.indexOf(preset) as preset.name for preset in presetCtrl.presets"
+									class="lcd"></select>
+				</div>
+				<div class="dx7-buttons-row-1">
+					<button class="dx7-button purple" ng-click="midiCtrl.onVizClick()">Viz</button>
+					<button class="dx7-button teal" ng-click="midiCtrl.onDemoClick(0)">Demo 1</button>
+					<button class="dx7-button teal" ng-click="midiCtrl.onDemoClick(1)">Demo 2</button>
+					<button class="dx7-button pink" ng-click="presetCtrl.save()">Save</button>
+					<button class="dx7-button pink" ng-click="presetCtrl.reset()">Reset</button>
+				</div>
+				<div class="dx7-buttons-row-2">
+					MIDI Device: <select class="dx7-button" id="midiIn"></select>
+				</div>
+			</div>
+			
+			<div class="dx7-operators">
+				<div class="algorithm-diagram" style="background-image: url(assets/Yamaha-DX7/images/algorithm-{{ ('0' + presetCtrl.params.algorithm).slice(-2) }}.svg)"></div>
+				<div class="operator" ng-repeat="operator in presetCtrl.presets[presetCtrl.selectedIndex].operators | reverse" ng-controller="OperatorCtrl">
+					<div class="param-group">
+						<div ng-show="$first" class="param-group-heading heading-algorithm">Algorithm</div>
+						<div ng-show="$first" class="param-group-heading">Operator</div>
+						<div class="param">
+							<div class="param-label">On/Off</div>
+							<toggle-button ng-model="operator.enabled"></toggle-button>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Level" ng-model="operator.volume"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="-50" max="50" to-number label="Pan" ng-model="operator.pan"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="7" to-number label="Vel Sens" ng-model="operator.velocitySens"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="-3" max="3" to-number label="LFO Sens" ng-model="operator.lfoAmpModSens"></knob>
+						</div>
+					</div>
+					<div class="param-group">
+						<div ng-show="$first" class="param-group-heading">Frequency</div>
+						<div class="param">
+							<div class="param-label">Fixed</div>
+							<toggle-button ng-model="operator.oscMode"></toggle-button>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="31" to-number ng-if="operator.oscMode == 0" label="Coarse" ng-model="operator.freqCoarse"></knob>
+							<knob step="1" min="0" max="3" to-number ng-if="operator.oscMode == 1" label="Coarse" ng-model="operator.freqCoarse"></knob>
+						</div>
+						<div class="frequency-display" ng-bind="freqDisplay"></div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Fine" ng-model="operator.freqFine"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="-7" max="7" to-number label="Detune" ng-model="operator.detune"></knob>
+						</div>
+					</div>
+					<div class="param-group param-group-sliders">
+						<div ng-show="$first" class="param-group-heading">EG Rate</div>
+						<div class="param narrow" ng-repeat="i in [0,1,2,3]">
+							<slider step="1" min="0" max="99" to-number label="EG R{{i+1}}" ng-model="operator.rates[i]"></slider>
+						</div>
+					</div>
+					<div class="param-group param-group-sliders">
+						<div ng-show="$first" class="param-group-heading">EG Level</div>
+						<div class="param narrow" ng-repeat="i in [0,1,2,3]">
+							<slider step="1" min="0" max="99" to-number label="EG L{{i+1}}" ng-model="operator.levels[i]"></slider>
+						</div>
+					</div>
+					<div class="param-group">
+						<div ng-show="$first" class="param-group-heading">Keyboard Scaling <span style="opacity: 0.2">Not implemented</span></div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Rate" ng-model="operator.keyScaleRate"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Depth" ng-model="operator.keyScaleDepthL"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Curve" ng-model="operator.keyScaleCurveL"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Breakpt" ng-model="operator.keyScaleBreakpoint"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Curve" ng-model="operator.keyScaleCurveR"></knob>
+						</div>
+						<div class="param">
+							<knob step="1" min="0" max="99" to-number label="Depth" ng-model="operator.keyScaleDepthR"></knob>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="dx7-bottom-panel">
+				<div class="param wide">
+					<knob step="1" min="1" max="32" to-number label="Algorithm" ng-model="presetCtrl.params.algorithm"></knob>
+				</div>
+				<div class="param wide">
+					<knob step="1" min="0" max="7" to-number label="Feedback" ng-model="presetCtrl.params.feedback"></knob>
+				</div>
+				<!--
+				<div class="group-name">LFO</div>
+				-->
+				<div class="param extra-wide">
+					<div class="param-label">Waveform</div>
+					<select class="dx7-button"
+							ng-model="presetCtrl.presets[presetCtrl.selectedIndex].lfoWaveform"
+							ng-change="presetCtrl.onLFOChange()"
+							ng-options="presetCtrl.lfoWaveformOptions.indexOf(wave) as wave for wave in presetCtrl.lfoWaveformOptions"></select>
+				</div>
+				<div class="param">
+					<knob step="1" min="0" max="99" to-number label="Speed" ng-model="presetCtrl.params.lfoSpeed"></knob>
+				</div>
+				<div class="param">
+					<knob step="1" min="0" max="99" to-number label="Delay" ng-model="presetCtrl.params.lfoDelay"></knob>
+				</div>
+				<div class="param">
+					<knob step="1" min="0" max="99" to-number label="Amp Mod" ng-model="presetCtrl.params.lfoAmpModDepth"></knob>
+				</div>
+				<div class="param">
+					<knob step="1" min="0" max="99" to-number label="Pitch Mod" ng-model="presetCtrl.params.lfoPitchModDepth"></knob>
+				</div>
+				<div class="param">
+					<knob step="1" min="0" max="7" to-number label="Pitch Sens" ng-model="presetCtrl.params.lfoPitchModSens"></knob>
+				</div>
+				<div class="param">
+					<div class="param-label">After Touch</div>
+					<toggle-button ng-true-value="1" ng-false-value="0" ng-model="presetCtrl.params.aftertouchEnabled"></toggle-button>
+				</div>
+<!--			<select class="dx7-button"-->
+<!--					ng-model="midiCtrl.midiFileIndex"-->
+<!--					ng-options="midiCtrl.midiFiles.indexOf(file) as file.slice(23) for file in midiCtrl.midiFiles"></select>-->
+				
+<!--			<button id="" class="dx7-button teal" onclick="initialise()">Load AI</button>-->
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.getMidiArray()">New Pattern</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiPlay()">Play</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.onMidiStop()">Stop</button>
+				<button id="waitForModel" class="dx7-button teal" ng-click="midiCtrl.downloadMidiFile()">Download</button>
+				
+				<!-- TODO: Sync and Pitch EG
+				<div class="param">
+					<div class="param-label">Sync</div>
+					<label for="lfoSync">
+						<toggle-button ng-true-value="1" ng-false-value="0" ng-model="presetCtrl.params.lfoSync"></toggle-button>
+					</label>
+				</div>
+				<div class="param-group param-group-sliders">
+					<div class="param-group-heading below">Pitch EG Rate</div>
+					<div class="param narrow" ng-repeat="i in [0,1,2,3]">
+						<slider step="1" min="0" max="99" to-number label="Pitch R{{i+1}}" ng-model="presetCtrl.params.pitchEnvelope.rates[i]"></slider>
+					</div>
+				</div>
+				<div class="param-group param-group-sliders">
+					<div class="param-group-heading below">Pitch EG Level</div>
+					<div class="param narrow" ng-repeat="i in [0,1,2,3]">
+						<slider step="1" min="0" max="99" to-number label="Pitch L{{i+1}}" ng-model="presetCtrl.params.pitchEnvelope.levels[i]"></slider>
+					</div>
+				</div>
+				-->
+			</div>
+		</div>
+	<script src="assets/Yamaha-DX7/bundle.js"></script>
+	
+	<script>
+		// Modal pop up dialogue 
+		var modal = document.getElementById("myModal");
+		// Get the button that opens the modal
+		var btn = document.getElementById("myBtn");
+		// Get the <span> element that closes the modal
+		var span = document.getElementsByClassName("close")[0];
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+			modal.style.display = "none";
+		}
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+		//
+	</script>
+	
+</body>
+</html>
+
