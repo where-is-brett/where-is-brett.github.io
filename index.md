@@ -10,9 +10,9 @@ You probably know me as a physicist if you have worked alongside me or read my C
 
 <br/>
 ## what's new?
-14 Nov 2021. [This app]({{site.url}}/app/music-genius) - can help you with music theory, display chords and scales all in one place!
+14 Nov 2021. [This app]({{site.url}}/app/music-genius) can help you with music theory - display chords and scales all in one place!
 
-21 Nov 2021. [AI Bassist]({{site.url}}/app/groove-box) is an AI that composes bass melodies in the sub-genre of Techno music, all in your browser.
+21 Nov 2021. [AI Bassist]({{site.url}}/groove-box) is an AI that composes bass melodies in the sub-genre of Techno music, all in your browser.
 
 
 <br/>
