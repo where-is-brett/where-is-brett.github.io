@@ -1,12 +1,11 @@
 ---
 title: Music
-permlink: /music/
+permlink: /music
 feature_text:
 feature_image: "/files/images/amps.jpg"
 aside: true
 excerpt: "This page contains all my creative work."
-redirect_from:
-  - /music
+
 ---
 
 <br/>
