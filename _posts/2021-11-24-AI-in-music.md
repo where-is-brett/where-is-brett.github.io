@@ -47,24 +47,26 @@ We will explore these aspects of music generation by creating and implementing a
 
 <h4><a href="/groove-box.html">AI Bassist</a></h4>
 <br>
-AI Bassist is a symbolic model that generates monophonic bass melodies in the style of minimal house and techno music. You can play with it <a href="/groove-box.html">on this page</a>. The targeted destination for generated content is a software synthesiser which interprets MIDI files. Human interaction is possible during content generation via a SoftMax temperature parameter[^2], though it is not reflected in the user interface (UI) in the current release. 
+AI Bassist is a symbolic model that generates monophonic bass melodies in the style of minimal house and techno music. You can play with the web app <a href="/groove-box.html">on this page</a>. The target destination is a software synthesiser which reads MIDI files. Human interaction is limited though possible during content generation via a SoftMax temperature parameter[^2]. However, it is not reflected in the user interface (UI) in the current release. 
 
-Access to music instruments and musical knowledge are the main obstacles to novice producers when it comes to composing a bassline. AI Bassist serves as a groove box so that one can focus on sound design and arrangement. AI Bassist generates 2-bar basslines in the form of a MIDI file, which is readily processed by a software synthesiser to produce all kinds of sound. Below is a demo track containing two generated melodies.
+Access to music instruments and knowledge in music theory are the main obstacles for novice producers. Exploring creativity and articulating artistic expressions can be especially challenging when all audio/visual feedback is contained within a digital audio workstation (DAW). AI Bassist eliminates the "composer's block" and encourages novice producers to focus on sound design. AI Bassist puts a producer in the audience's perspective by generating 2-bar melodies in MIDI format, which is readily processed by any software instrument. The producer can focus on sound design and arrangement but also has the option to modify the melody. The demo track below is a collaboration between myself and AI Bassist.
 <br>
 <audio style="width:100%;height:100%;" class="mejs__player">
   <source src="/files/music/AI_bassist_demo_1.mp3" type="audio/mp3">
   Your browser does not support the audio element.
 </audio>
 <br>
-Two generated MIDI containing note sequences were processed by Roland synthesisers TB-303 and Jupiter-8. The 303 gave sets the acidic scene and the arpeggiated Jupiter-8 adds occasional polyphony. Drum track was built from audio samples.
+Two generated MIDI note sequences were processed by Roland TB-303 and Jupiter-8. The 303 gave sets the acidic scene and the arpeggiated Jupiter-8 adds occasional polyphony. My contribution was on the drum track, audio FX and arrangement. 
 
 <figure>
   <img src="/files/images/AI-Bassist-Demo-1.jpg" alt="Logic X Pro" style="width:100%">
-  <figcaption>Figure 1. A snapshot of the digital audio workstation (DAW)</figcaption>
+  <figcaption>Figure 1. DAW during the making of demo track</figcaption>
 </figure>
 
+AI Bassist is currently built into a Yamaha DX7 emulator in a <a href="/groove-box.html">web application</a>. You can play generated melodies and download the ones you like as MIDI files. 
 
 
+<br>
 <br>
 More to follow!
 
