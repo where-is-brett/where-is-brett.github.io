@@ -30,7 +30,7 @@ AI technologies has proven prolific as a means to perform tasks at a scale. Mach
 
 <!-- <h4>Autonomy vs. Assistance</h4> -->
 <!-- <br> -->
-To begin with, I would like to make clear distinction of the two main objectives of music generation. A system that generates complete a music piece assumes the role of a composer. Amper and Aiva strive for the autonomous creation of original music for content creators. In contrast, a system that generates music fragments assists with composition. The earliest record of such a system dates back to the 18th century – Musikalisches Würfelspiel uses dice to generate arrangements for precomposed music segments. Digital Audio Workstation plugins such as iZotope Ozone, Jamahook are present day examples of an assistive tool for musicians and producers.
+To begin with, I would like to make clear distinction of the two main objectives of music generation. A system that generates a complete music piece assumes the role of a composer. Amper and Aiva strive for the autonomous creation of original music for content creators. In contrast, a system that generates music fragments assists with composition. The earliest record of such a system dates back to the 18th century – Musikalisches Würfelspiel uses dice to generate arrangements for precomposed music segments. Digital Audio Workstation plugins such as iZotope Ozone, Jamahook are present day examples of an assistive tool for musicians and producers.
 <br>
 
 <!-- <h4>Characteristics</h4> -->
