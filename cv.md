@@ -7,18 +7,18 @@ redirect_from:
   - /CV/
 ---
 
-
-<div id="adobe-dc-view" style="height: 1080px; width: 720px;"></div> 
-<script src="https://documentcloud.adobe.com/view-sdk/main.js"></script> 
-<script type="text/javascript"> 
-   document.addEventListener("adobe_dc_view_sdk.ready", function(){  
-      var adobeDCView = new AdobeDC.View({clientId: "{{site.adobe-client-id}}", divId: "adobe-dc-view"}); 
-      adobeDCView.previewFile({ 
-         content:{location: {url: "https://www.brettyang.info/files/documents/CV_2021.pdf"}}, 
-         metaData:{fileName: "CV.pdf"} 
-      }, {embedMode: "SIZED_CONTAINER", showDownloadPDF: true, showPrintPDF: true}); 
-   }); 
-</script> 
+<!--  -->
+<!-- <div id="adobe-dc-view" style="height: 1080px; width: 720px;"></div>  -->
+<!-- <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>  -->
+<!-- <script type="text/javascript">  -->
+<!--    document.addEventListener("adobe_dc_view_sdk.ready", function(){   -->
+<!--  var adobeDCView = new AdobeDC.View({clientId: "{{site.adobe-client-id}}", divId: "adobe-dc-view"});  -->
+<!--  adobeDCView.previewFile({  -->
+<!--     content:{location: {url: "https://www.brettyang.info/files/documents/CV_2021.pdf"}},  -->
+<!--     metaData:{fileName: "CV.pdf"}  -->
+<!--  }, {embedMode: "SIZED_CONTAINER", showDownloadPDF: true, showPrintPDF: true});  -->
+<!--    });  -->
+<!-- </script>  -->
 
 <div id="adobe-dc-view" style="width: 800px;"></div> 
 <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script> 
